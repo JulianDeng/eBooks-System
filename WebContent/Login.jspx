@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+	<jsp:directive.page contentType="text/html; charset=UTF-8" 
+		pageEncoding="UTF-8" session="true"/>
+	<jsp:output doctype-root-element="html"
+		doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+		doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
+		omit-xml-declaration="true" />
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:f="http://java.sun.com/jsp/jstl/fmt" xmlns:func="http://java.sun.com/jsp/jstl/functions">
+<head>
+<title>Insert title here</title>
+</head>
+<body>
+<form method="POST" action="">
+<fieldset>
+	<legend>Please login...</legend>
+	<h4 style="color:red">${errorMsg}</h4>
+	<label for="user">Username </label>
+	<input name="user" id="user" type="text"/>
+	<label for="pswd">Password</label>
+	<input name="pswd" id="pswd" type="password"/>
+	<input value="Login" name="doLogin" id="doLogin" type="submit"/>
+	<input value="Create New Account" name="doCreate" id="doCreate" type="submit"/>
+</fieldset>
+</form>
+</body>
+</html>
+</jsp:root>

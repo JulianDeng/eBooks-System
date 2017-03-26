@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+	<jsp:directive.page contentType="text/html; charset=UTF-8" 
+		pageEncoding="UTF-8" session="true"/>
+	<jsp:output doctype-root-element="html"
+		doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+		doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
+		omit-xml-declaration="true" />
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:f="http://java.sun.com/jsp/jstl/fmt" xmlns:func="http://java.sun.com/jsp/jstl/functions">
+<head>
+<title>Insert title here</title>
+</head>
+<body>
+<form action="" method="POST">
+<legend>Items in Shopping Cart...</legend>
+<fieldset>
+<table>
+<tr>
+<td>Book ID</td>
+<td>Book Name</td>
+<td>Quantity</td>
+<td>+1</td>
+<td>-1</td>
+<td>Show</td>
+<td>Remove</td>
+<td>Price</td>
+</tr>
+<c:forEach var="book" items="${books}">
+<tr>
+<td><label>${book.bid}</label></td>
+<td><label>${book.name}</label></td>
+<td><input type="submit" name="minus_one" id="minus_one" value="minus_one_${book.bid}" onclick="validate()"/></td>
+<td><label name="book_${book.bid}" id="book_${book.bid}">${book.quantity}</label></td>
+<td><input type="submit" name="plus_one" id="plus_one" value="plus_one_${book.bid}"/></td>
+<td><button type="button" name="bookView" value="true" onclick="doCategoryAjax('/eBooks/Start/${book.bid}/');return false;">Show</button></td>
+<td><input type="submit" name="remove" id="remove" value="Remove_${book.bid}"/></td>
+<td><label>${book.price}</label></td>
+</tr>
+</c:forEach>
+</table>
+
+<input type="submit" name="update" id="update" value="update"/>
+
+<div id="bookViewAjax" name="bookViewAjax">No Book Selected</div>
+
+<label>Total ${cart.total}</label>
+
+<input type="submit" name="payment" id="payment" value="payment"/>
+
+
+
+
+</fieldset>
+</form>
+</body>
+</html>
+</jsp:root>

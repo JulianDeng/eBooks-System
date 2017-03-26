@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+	<jsp:directive.page contentType="text/html; charset=UTF-8" 
+		pageEncoding="UTF-8" session="true"/>
+	<jsp:output doctype-root-element="html"
+		doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+		doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
+		omit-xml-declaration="true" />
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:f="http://java.sun.com/jsp/jstl/fmt" xmlns:func="http://java.sun.com/jsp/jstl/functions">
+<head>
+<title>Insert title here</title>
+</head>
+<body>
+<form method="POST" action="">
+<fieldset>
+<p align="right">Hello, ${login}!<br/>
+	<input type="submit" name="logout" id="logout" value="logout"/>
+</p>
+<h4 style="color:red">${errorMsg}</h4>
+<legend>Please verify billing and shipping information and provide credit card number...</legend>
+	<label>${address.street}</label><br/>
+	<label>${address.province}</label><br/>
+	<label>${address.country}</label><br/>
+	<label>${address.zip}</label><br/>
+	<label>${address.phone}</label><br/>
+	<label for="CCN">Credit Card Number</label>
+	<input name="CCN" id="CCN" type="text"/> 
+	<input type="submit" name="verify" id="verify" value="verify"/>
+</fieldset>
+</form>
+</body>
+</html>
+</jsp:root>
