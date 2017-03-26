@@ -63,9 +63,10 @@ public class Home extends HttpServlet {
 			response.setContentType("text/html");
 			PrintWriter pw = response.getWriter();
 			//Ajax goes here; Show book view write html here
-		}else if(request.getParameter("search") != null || request.getParameter("search").equals("")){
+		}else if(request.getParameter("search") != null){
 			//Search button is hit. Search works
-		}else if(request.getParameter("Cart") != null){
+			System.out.println("search button is hit.");
+		}else if(request.getParameter("shoppingCart") != null){
 			//Cart button is hit.
 			String target = "Cart";
 			this.getServletContext().getNamedDispatcher(target).forward(request, response);
