@@ -8,18 +8,21 @@
     <welcome-file>default.html</welcome-file>
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
-    <welcome-file>Home</welcome-file>
   </welcome-file-list>
   <servlet>
-  	<servlet-name>Home</servlet-name>
-  	<servlet-class>ctrl.Home</servlet-class>
+	<servlet-name>Home</servlet-name>
+	<servlet-class>ctrl.Home</servlet-class>
   </servlet>
   <servlet>
-  	<servlet-name>Cart</servlet-name>
-  	<servlet-class>ctrl.Cart</servlet-class>
+	<servlet-name>Cart</servlet-name>
+	<servlet-class>ctrl.Cart</servlet-class>
   </servlet>
   <servlet>
-  	<servlet-name>OrderProcess</servlet-name>
-  	<servlet-class>ctrl.OrderProcess</servlet-class>
+	<servlet-name>OrderProcess</servlet-name>
+	<servlet-class>ctrl.OrderProcess</servlet-class>
+  </servlet>
+  <servlet>
+	<servlet-name>Admin</servlet-name>
+	<servlet-class>analytics.Admin</servlet-class>
   </servlet>
 </web-app>

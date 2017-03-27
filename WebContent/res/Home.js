@@ -1,20 +1,20 @@
 function doCategoryAjax(address){
-	 var request = new XMLHttpRequest();
-	 var data=``;
+	var request = new XMLHttpRequest();
+	var data="";
 
-	 /* add your code here to grab all parameters from form*/
-	 request.open("GET", (address + "?" + data), true);
-	 request.onreadystatechange = function() {
-	 handlerCategory(request);
-	 };
-	 request.send(null);
+	/* add your code here to grab all parameters from form*/
+	request.open("GET", (address + "?" + data), true);
+	request.onreadystatechange = function() {
+		handlerCategory(request);
+	};
+	request.send(null);
 } 
 
 function handlerCategory(request){
-	 if ((request.readyState == 4) && (request.status == 200)){
-	 var target = document.getElementById("category");
-	 target.innerHTML = request.responseText;
-	 }
+	if ((request.readyState == 4) && (request.status == 200)){
+		var target = document.getElementById("category");
+		target.innerHTML = request.responseText;
+	}
 } 
 
 

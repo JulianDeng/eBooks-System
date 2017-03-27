@@ -32,14 +32,14 @@ public class Cart extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		System.out.println("getting into cart");
 		CartModel cm = (CartModel) getServletContext().getAttribute("cartModel");
-		if (request.getQueryString() == null && request.getMethod().equals("GET")) {
-			String target = "/Cart.jspx";
-			request.getRequestDispatcher(target).forward(request, response);
-		}else if(request.getParameter("back") != null){
-			response.sendRedirect("Cart");	    // Reserved for "back" button. Will implment if time permits.
-		}else if(request.getPathInfo() != null && request.getPathInfo().equals("/book/")){
+		// Reserved for "back" button. Will implment if time permits.
+		if(request.getParameter("back") != null){
+			response.sendRedirect("Cart");	   
+		}
+		
+		else if(request.getPathInfo() != null && request.getPathInfo().equals("/book/")){
 			response.setContentType("text/html");
 			PrintWriter pw = response.getWriter();
 			//Ajax goes here; Show book detail; write html here

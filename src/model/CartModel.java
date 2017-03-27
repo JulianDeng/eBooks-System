@@ -16,7 +16,7 @@ public class CartModel {
 	private CartBean cart;
 
 	
-	public CartModel() {
+	public CartModel() throws ClassNotFoundException {
 		bDAO = new BookDAO();
 		brDAO = new BookReviewDAO();
 		veDAO = new VisitEventDAO();

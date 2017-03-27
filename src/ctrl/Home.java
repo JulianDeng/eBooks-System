@@ -2,14 +2,24 @@ package ctrl;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Vector;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import DAO.BookDAO;
+import bean.BookBean;
 import model.CartModel;
 
 /**
@@ -18,24 +28,25 @@ import model.CartModel;
 @WebServlet({"/Home", "/Home/*"})
 public class Home extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	private ServletContext context;
+	private BookDAO bookDao;
     /**
      * @see HttpServlet#HttpServlet()
      */
     public Home() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see Servlet#init(ServletConfig)
 	 */
 	public void init() throws ServletException {
-		// TODO Auto-generated method stub
 		super.init();
 		try{
 			CartModel cm = new CartModel();
-			getServletContext().setAttribute("cartModel", cm);
+			context = this.getServletContext();
+			context.setAttribute("cartModel", cm);
+			bookDao = new BookDAO();
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -45,33 +56,54 @@ public class Home extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		CartModel cm = (CartModel) getServletContext().getAttribute("cartModel");
-		if (request.getQueryString() == null && request.getMethod().equals("GET")) {
-			String target = "/Home.jspx";
-			request.getRequestDispatcher(target).forward(request, response);
-		}else if(request.getParameter("back") != null){
-			response.sendRedirect("Home");	    // Reserved for "back" button. Will implment if time permits.
-		}else if(request.getPathInfo() != null && request.getPathInfo().equals("/catSelect/")){
+		
+		CartModel cm = (CartModel) context.getAttribute("cartModel");
+		
+		//If user press back button (Will implement if time permits)
+		if(request.getParameter("back") != null){ 
+			response.sendRedirect("Home");
+		}
+		//if user want to view books
+		else if(request.getPathInfo() != null && request.getPathInfo().equals("/book/")){
 			response.setContentType("text/html");
-			PrintWriter pw = response.getWriter();
-			//Ajax goes here; Show book list write html here
-			// ajax button should be included for each book. hard code it.
-			// e.g. <button type="button" name="show" value="true" onclick="doBookViewAjax('/eBooks/Start/book/', bid);return false;">Show</button>	
-			// also not to forget to implement the review(pinglun) function here.
-		}else if(request.getPathInfo() != null && request.getPathInfo().equals("/book/")){
-			response.setContentType("text/html");
+			System.out.println("user select view books");
 			PrintWriter pw = response.getWriter();
 			//Ajax goes here; Show book view write html here
-		}else if(request.getParameter("search") != null){
-			//Search button is hit. Search works
-			System.out.println("search button is hit.");
-		}else if(request.getParameter("shoppingCart") != null){
-			//Cart button is hit.
+		}
+		//if user press search button, search books with specific title
+		else if(request.getParameter("search") != null){
+			System.out.println("user press search button");
+			String category = request.getParameter("cat");
+			String searchText = request.getParameter("searchText");
+			HashMap<String, BookBean> result;
+			try {
+				result = bookDao.getBooks(searchText, Integer.MAX_VALUE, 0, category);
+				Collection<BookBean> list = result.values();
+				request.setAttribute("books", list);
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			String target = "/Home.jspx";
+			request.getRequestDispatcher(target).forward(request, response);
+		}
+		//if user press shoppingCart button (forward to shopping cart page)
+		else if(request.getParameter("shoppingCart") != null){
 			String target = "Cart";
-			this.getServletContext().getNamedDispatcher(target).forward(request, response);
-		}else{
-			//add a book; new information saved in CartModel in session scope.
+			System.out.println("user press shoppingCart button");
+			
+			Enumeration<String> e = request.getParameterNames();
+			while(e.hasMoreElements()){
+				String element = e.nextElement();
+				System.out.println(element+": "+request.getParameter(element));
+			}
+			RequestDispatcher nd = context.getNamedDispatcher(target);
+			nd.forward(request, response);
+		}
+
+		//add a book, new information saved in CartModel in session scope.
+		else{
+			
 			
 			String target = "/Home.jspx";
 			request.getRequestDispatcher(target).forward(request, response);
@@ -83,7 +115,6 @@ public class Home extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
