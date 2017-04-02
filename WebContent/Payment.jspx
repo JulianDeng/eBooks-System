@@ -11,23 +11,52 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form method="POST" action="">
+
 <fieldset>
-<p align="right">Hello, ${login}!<br/>
-	<input type="submit" name="logout" id="logout" value="logout"/>
-</p>
+	<form method="POST" action="">
+		<p align="right">Hello, ${login}!<br/>
+			<input type="submit" name="logout" id="logout" value="logout"/>
+		</p>
+	</form>
 <h4 style="color:red">${errorMsg}</h4>
-<legend>Please verify billing and shipping information and provide credit card number...</legend>
-	<label>${address.street}</label><br/>
-	<label>${address.province}</label><br/>
-	<label>${address.country}</label><br/>
-	<label>${address.zip}</label><br/>
-	<label>${address.phone}</label><br/>
-	<label for="CCN">Credit Card Number</label>
-	<input name="CCN" id="CCN" type="text"/> 
-	<input type="submit" name="verify" id="verify" value="verify"/>
+<legend>Please provide billing information and credit card number...</legend>
+	<form method="POST" action="">
+	<table>
+		<tr>
+			<td><label>Street#: </label></td>
+			<td><input name="streetNum" id="streetNum" type="text"/></td>
+		</tr>
+		<tr>
+			<td><label>Street Name: </label></td>
+			<td><input name="streetName" id="streetName" type="text"/></td>
+		</tr>
+		<tr>
+			<td><label>Province: </label></td>
+			<td><input name="province" id="province" type="text"/></td>
+		</tr>
+		<tr>
+			<td><label>Country: </label></td>
+			<td><input name="country" id="country" type="text"/></td>
+		</tr>
+		<tr>
+			<td><label>ZIP: </label></td>
+			<td><input name="zip" id="zip" type="text"/></td>
+		</tr>
+		<tr>
+			<td><label>Phone: </label></td>
+			<td><input name="phone" id="phone" type="text"/></td>
+		</tr>
+		<tr>
+			<td><label>Credit Card Number: </label></td>
+			<td><input name="creditcard" id="creditcard" type="text"/></td>
+		</tr>
+		<tr>
+			<td colspan="2"><input value="Confirm order" name="paySubmit" id="paySubmit" type="submit"/></td>
+		</tr>
+	</table>
+	</form>
 </fieldset>
-</form>
+
 </body>
 </html>
 </jsp:root>

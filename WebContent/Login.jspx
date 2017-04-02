@@ -14,13 +14,59 @@
 <form method="POST" action="">
 <fieldset>
 	<legend>Please login...</legend>
-	<h4 style="color:red">${errorMsg}</h4>
-	<label for="user">Username </label>
-	<input name="user" id="user" type="text"/>
-	<label for="pswd">Password</label>
-	<input name="pswd" id="pswd" type="password"/>
-	<input value="Login" name="doLogin" id="doLogin" type="submit"/>
-	<input value="Create New Account" name="doCreate" id="doCreate" type="submit"/>
+	<c:if test="${not empty errorMsg}">
+		<p style="color:red">${errorMsg}</p>
+	</c:if>
+	<c:choose>
+		<c:when test="${empty requestScope.userwantregister}">
+		<table>
+			<tr>
+				<td><label for="user">Username: </label></td>
+				<td><input name="user" id="user" type="text"/></td>
+			</tr>
+			<tr>
+				<td><label for="pswd">Password: </label></td>
+				<td><input name="pswd" id="pswd" type="password"/></td>
+			</tr>
+			<tr>
+				<td><input value="Login" name="doLogin" id="doLogin" type="submit"/></td>
+				<td><input value="Register" name="doCreate" id="doCreate" type="submit"/></td>
+			</tr>
+		</table>
+		</c:when>
+		<c:otherwise>
+		<table>
+			<tr>
+				<td><label for="fname">First Name: </label></td>
+				<td><input name="fname" id="fname" type="text"/></td>
+				<td><label id="fn"> <font color="gray" size="2">first name can't be blank</font></label></td>
+			</tr>
+			<tr>
+				<td><label for="lname">Last Name: </label></td>
+				<td><input name="lname" id="lname" type="text"/></td>
+				<td><label id="ln"> <font color="gray" size="2">last name can't be blank</font></label></td>
+			</tr>
+			<tr>
+				<td><label for="user">Username: </label></td>
+				<td><input name="user" id="user" type="text"/></td>
+				<td><label id="un"> <font color="gray" size="2">user name can't be blank</font></label></td>
+			</tr>
+			<tr>
+				<td><label for="pswd1">Password: </label></td>
+				<td><input name="pswd1" id="pswd1" type="password"/></td>
+				<td><label id="pwd"> <font color="gray" size="2">password can't over 20 character and can't be lower than 10 character</font></label></td>
+			</tr>
+			<tr>
+				<td><label for="pswd2">ReType Password: </label></td>
+				<td><input name="pswd2" id="pswd2" type="password"/></td>
+				<td><label id="pwdagain"> <font color="gray" size="2">please ReType you password</font></label></td>
+			</tr>
+			<tr>
+				<td><input value="Register" name="doneCreate" id="doneCreate" type="submit" onclick="check('/eBooks/Home')"/></td>
+			</tr>
+		</table>
+		</c:otherwise>
+	</c:choose>
 </fieldset>
 </form>
 </body>

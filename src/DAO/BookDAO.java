@@ -31,9 +31,10 @@ public class BookDAO {
 			return null;
 		}
 		Connection con = this.ds.getConnection();
-		String query = "select * from BOOK where bid='" + bid + "'";
-		Statement execute = con.createStatement();
-		ResultSet result = execute.executeQuery(query);
+		String query = "select * from BOOK where bid=?";
+		PreparedStatement execute = con.prepareStatement(query);
+		execute.setString(1, bid);
+		ResultSet result = execute.executeQuery();
 		if(result.next()){
 			String title = result.getString("title");
 			int price = result.getInt("price");
@@ -61,15 +62,21 @@ public class BookDAO {
 		Connection con = this.ds.getConnection();
 		
 		StringBuilder queryBuffer = new StringBuilder("select * from BOOK ");
-		queryBuffer.append("where title like '%"+titlePrefix+"%' and price>="+minPrice+" and price<="+maxPrice);
-		if(category==null || category.equals("")){
-		} else {
-			queryBuffer.append(" and category='"+category+"';");
+		queryBuffer.append("where title like ? and price>=? and price<=?");
+		
+		if(category!=null && !category.equals("")){
+			queryBuffer.append(" and category=?");
 		}
 		
 		String query = queryBuffer.toString();
-		Statement execute = con.createStatement();
-		ResultSet result = execute.executeQuery(query);
+		PreparedStatement execute = con.prepareStatement(query);
+		execute.setString(1, "%"+titlePrefix+"%");
+		execute.setInt(2, minPrice);
+		execute.setInt(3, maxPrice);
+		if(category!=null && !category.equals("")){
+			execute.setString(4, category);
+		}
+		ResultSet result = execute.executeQuery();
 		
 		while(result.next()){
 			String bid = result.getString("bid");
