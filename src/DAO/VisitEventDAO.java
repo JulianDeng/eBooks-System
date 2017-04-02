@@ -77,7 +77,7 @@ public class VisitEventDAO {
 		while(tempMonth<=endInt){
 			monthList.add(""+(tempMonth*100));
 			tempMonth++;
-			if((tempMonth%100)>12){ //if month bigger than 12 then increase year
+			if(((tempMonth%10000)/100)>12){ //if month bigger than 12 then increase year
 				tempMonth = tempMonth+88;
 			}
 		}

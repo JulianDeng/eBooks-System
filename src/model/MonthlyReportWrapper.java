@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.*;
 
 import bean.CartItemBean;
 
-@XmlType(propOrder={"month", "books"})
+@XmlType(propOrder={"reportMonth", "orderItemList"})
 public class MonthlyReportWrapper {
 	@XmlElement(name="reportMonth")
 	private String month;

@@ -5,24 +5,28 @@
 
   <xsd:complexType name="bookReportType">
 	<xsd:sequence>
-	  <xsd:element name="generateAt" type="xsd:string"/>
-	  <xsd:element name="visitType" type="xsd:string"/>
+	  <xsd:element name="totalQuantity" type="xsd:nonNegativeInteger"/>
+	  <xsd:element name="totalPrice" type="xsd:nonNegativeInteger"/>
 	  <xsd:element name="monthlyReport" minOccurs="0" maxOccurs="unbounded" type="monthlyReportType"/>
 	</xsd:sequence>
+    <xsd:attribute name="visitType" type="xsd:string"/>
     <xsd:attribute name="monthFrom" type="xsd:string"/>
 	<xsd:attribute name="monthEnd" type="xsd:string"/>
   </xsd:complexType>
   
   <xsd:complexType name="monthlyReportType">
     <xsd:sequence>
-	  <xsd:element name="reportMonth" type="xsd:string"/>
+	  <xsd:element name="totalQuantity" type="xsd:nonNegativeInteger"/>
+	  <xsd:element name="totalPrice" type="xsd:nonNegativeInteger"/>
 	  <xsd:element name="orderItemList" minOccurs="0" maxOccurs="unbounded" type="orderItemType"/>
 	</xsd:sequence>
+	<xsd:attribute name="reportMonth" type="xsd:string"/>
   </xsd:complexType>
   
   <xsd:complexType name="orderItemType">
     <xsd:sequence>
-	  <xsd:element name="date" type="xsd:string"/>
+	  <xsd:element name="totalQuantity" type="xsd:nonNegativeInteger"/>
+	  <xsd:element name="totalPrice" type="xsd:nonNegativeInteger"/>
 	  <xsd:element name="bookInfo" minOccurs="0" maxOccurs="unbounded" type="bookInfoType"/>
 	</xsd:sequence>
   </xsd:complexType>

@@ -11,7 +11,7 @@ import bean.BookBean;
  * @author Administrator
  *
  */
-@XmlType(propOrder={"date", "item"})
+@XmlType(propOrder={"date", "bookInfo"})
 public class OrderItemWrapper {
 	@XmlElement(name="bookInfo")
 	private BookBean item;

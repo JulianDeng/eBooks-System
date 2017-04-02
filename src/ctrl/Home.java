@@ -85,83 +85,30 @@ public class Home extends HttpServlet {
 
 		//if admin want to visit website (check whether he is logging in, if not then let admin to login)
 		else if(request.getPathInfo() != null && request.getPathInfo().indexOf("Analytics") >= 0){
-			//if admin is logging in
-			System.out.println("Admin");
-			if(session.getAttribute("AdminLoggingIn")!=null && session.getAttribute("AdminLoggingIn").equals("true")){
-				System.out.println("AdminLoggingIn");
-				//if admin submit 
-				if(request.getParameter("submitMonthReport") != null){
-					try {
-						String eventtype = request.getParameter("eventtype");
-						String year = request.getParameter("year");
-						String month = request.getParameter("month");
-						if(month.length()==1) month = "0"+month;
-						ReportWrapper report = visitDao.getReport(eventtype, year+month+"01");
-						
-						String f = "analytics"+ File.separator + request.getSession().getId()+".xml";
-						String filename = this.getServletContext().getRealPath(File.separator + f);
-						analyticsmodel.exportVisitReport(report, filename);
-					} catch (SQLException e) {
-						e.printStackTrace();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-				else if(request.getParameter("submitReport") != null){
-					try {
-						String eventtype = request.getParameter("eventtype");
-						String yearbegin = request.getParameter("yearbegin");
-						String monthbegin = request.getParameter("monthbegin");
-						String yearend = request.getParameter("yearend");
-						String monthend = request.getParameter("monthend");
-						if(monthbegin.length()==1) monthbegin = "0"+monthbegin;
-						if(monthend.length()==1) monthend = "0"+monthend;
-						String dateBegin = yearbegin+monthbegin+"00";
-						String dateEnd = yearend+monthend+"00";
-						ReportWrapper report = visitDao.getReport(eventtype, dateBegin, dateEnd);
-						
-						String f = "analytics"+ File.separator + request.getSession().getId()+".xml";
-						String filename = this.getServletContext().getRealPath(File.separator + f);
-						analyticsmodel.exportVisitReport(report, filename);
-					} catch (SQLException e) {
-						e.printStackTrace();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-				else{
-					String target = "/Analytics.jspx";
-					request.getRequestDispatcher(target).forward(request, response);
-				}
+			System.out.println("Administrator");
+			adminLogin(request, response, session);
+			//check if admin want login and login is correct
+			if(request.getParameter("adminLogin") != null){
+				System.out.println("adminLogin");
+				checkAdminLogin(request, response, session);
 			}
-			//if admin is not logging in
-			else{
-				System.out.println("Admin not login");
+			//****************************For Administrator***********************************************
+			//***************************if only submit report for individual month************************
+			else if(request.getParameter("submitMonthReport") != null){
+				String f = "analytics"+ File.separator + "po.xml";
+				String filename = this.getServletContext().getRealPath(File.separator + f);
+				String visitType = request.getParameter("eventtype");
+				String year = request.getParameter("year");
+				String month = request.getParameter("month");
+				
+				ReportWrapper report;
 				try {
-					if(request.getParameter("adminLogin") != null){
-						System.out.println("adminLogin is not null");
-						String adminUserName = request.getParameter("adminUserName");
-						String adminPassword = request.getParameter("adminPassword");
-						boolean success = loginDao.adminLogin(adminUserName, adminPassword);
-						if(success){
-							session.setAttribute("AdminLoggingIn", "true");
-							String target = "/Analytics.jspx";
-							request.getRequestDispatcher(target).forward(request, response);
-						} 
-						else {
-							String target = "/AdminLogin.jspx";
-							request.getRequestDispatcher(target).forward(request, response);
-						}
-					}
-					else{
-						String target = "/AdminLogin.jspx";
-						request.getRequestDispatcher(target).forward(request, response);
-					}
-				} catch (SQLException e) {
+					report = visitDao.getReport(visitType, year+month+"00");
+					analyticsmodel.exportVisitReport(report, filename);
+				} catch (Exception e) {
 					e.printStackTrace();
-					String target = "/AdminLogin.jspx";
-					request.getRequestDispatcher(target).forward(request, response);
 				}
+				
 			}
 		}
 		
@@ -335,6 +282,37 @@ public class Home extends HttpServlet {
 		}
 	}
 
+	private void adminLogin(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException{
+		String target;
+		if(session.getAttribute("AdminLoggingIn") != null && session.getAttribute("AdminLoggingIn").equals("true")){
+			target = "/Analytics.jspx";
+		}
+		else{
+			target = "/AdminLogin.jspx";
+		}
+		request.getRequestDispatcher(target).forward(request, response);
+	}
+	
+	private void checkAdminLogin(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException{
+		String target;
+		String adminUserName = request.getParameter("adminUserName");
+		String adminPassword = request.getParameter("adminPassword");
+		try{
+			if(loginDao.adminLogin(adminUserName, adminPassword)){
+				System.out.println("admin login success");
+				target = "/Analytics.jspx";
+				session.setAttribute("AdminLoggingIn", "true");
+			}
+			else{
+				System.out.println("admin login failed");
+				target = "/AdminLogin.jspx";
+			}
+			request.getRequestDispatcher(target).forward(request, response);
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+	}
+	
 	//If user submit login request to server
 	private void userLogin(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException{
 		String username = request.getParameter("user");

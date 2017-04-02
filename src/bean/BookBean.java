@@ -26,7 +26,6 @@ public class BookBean {
 		this.category = category;
 	}
 
-	@XmlTransient
 	public String getBid() {
 		return bid;
 	}
@@ -35,7 +34,6 @@ public class BookBean {
 		this.bid = bid;
 	}
 
-	@XmlTransient
 	public String getTitle() {
 		return title;
 	}
@@ -44,7 +42,6 @@ public class BookBean {
 		this.title = title;
 	}
 
-	@XmlTransient
 	public int getPrice() {
 		return price;
 	}
@@ -53,7 +50,6 @@ public class BookBean {
 		this.price = price;
 	}
 
-	@XmlTransient
 	public String getCategory() {
 		return category;
 	}

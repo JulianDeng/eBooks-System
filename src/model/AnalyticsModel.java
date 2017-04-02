@@ -35,7 +35,7 @@ public class AnalyticsModel {
 	    StringWriter sw = new StringWriter();
 	    sw.write("<?xml version='1.0'?>\n");
 	    ms.marshal(report, sw);
-	    //System.out.println(sw.toString());
+	    System.out.println(sw.toString());
 	    FileWriter fw = new FileWriter(filename);
 	    fw.write(sw.toString());
 	    fw.close();
