@@ -1,41 +1,64 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
-	<jsp:directive.page contentType="text/html; charset=UTF-8" 
-		pageEncoding="UTF-8" session="true"/>
-	<jsp:output doctype-root-element="html"
-		doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
-		doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
-		omit-xml-declaration="true" />
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" 
+	xmlns:c="http://java.sun.com/jsp/jstl/core" version="2.0">
+<jsp:directive.page contentType="text/html; charset=UTF-8" 
+	pageEncoding="UTF-8" session="true"/>
+<jsp:output doctype-root-element="html"
+	doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+	doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
+	omit-xml-declaration="true" />
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:f="http://java.sun.com/jsp/jstl/fmt" xmlns:func="http://java.sun.com/jsp/jstl/functions">
 <head>
 <title>Insert title here</title>
 </head>
 <body>
-<form action="" method="POST">
-<legend>Select your category...</legend>
-<fieldset>
-<table>
-<tr><td>
-<input type="radio" name="cat" id="catSci" value="science"/> Science <br/>
-<input type="radio" name="cat" id="catEng" value="engineering"/> Engineering <br/>
-<input type="radio" name="cat" id="catFic" value="fiction"/> Fiction <br/>
-<button type="button" name="catSelect" value="true" onclick="doCategoryAjax('/eBooks/Start/catSelect/');return false;">Select</button>
-</td>
-<td sytle="align:right">
-<label>Search Bar</label>
-<br/>
-<input type="text" name="searchText" id="searchText" value=""/>
-<br/>
-<input type="submit" name="search" id="search" value="Search"/>
-</td></tr>
-</table>
-<div id="bookListAjax" name="bookListAjax">${searchResult}</div>
-<div id="bookViewAjax" name="bookViewAjax">No Book Selected</div>
-
-<input type="submit" name="shoppingCart" id="shoppingCart" value="shoppingCart"/>
-
-</fieldset>
-</form>
+	<fieldset>
+	<legend>Select your category...</legend>
+	<form action="" method="POST">
+	<table>
+		<tr>
+			<td>
+				<input type="radio" name="cat" id="catSci" value="science">Science</input>
+			</td>
+			<td>
+				<input type="radio" name="cat" id="catEng" value="engineering">Engineering</input>
+			</td>
+			<td>
+				<input type="radio" name="cat" id="catFic" value="fiction">Fiction</input>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<label>Search </label>
+				<input type="text" name="searchText" id="searchText" value=""/>
+			</td>
+			<td>
+				<input type="submit" name="search" id="search" value="Search"/>
+			</td>
+		</tr>
+	</table>
+	</form>
+	</fieldset>
+	<c:if test="${not empty requestScope.books}">
+		<form>
+		<fieldset>
+		<legend>Search Result</legend>
+		<div id="bookList" name="bookList" >
+			<c:forEach var="book" items="${requestScope.books}">
+				<hr/>
+				<font size="2">Title: ${book.title}</font><br/>
+				<font size="2">Price: ${book.price}</font><br/>
+				<font size="2">Category: ${book.category}</font><br/>
+				<input type="submit" name="add_${book.bid}" id="add_${book.bid}" value="Add to cart"/>
+			</c:forEach>
+			<hr/>
+		</div>
+		</fieldset>
+		</form>
+	</c:if>
+	<form action="" method="POST">
+		<input type="submit" name="shoppingCart" id="shoppingCart" value="shoppingCart"/>
+	</form>
 </body>
 </html>
 </jsp:root>
