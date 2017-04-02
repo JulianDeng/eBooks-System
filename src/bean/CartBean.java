@@ -8,7 +8,6 @@ public class CartBean {
 	public CartBean(){
 		super();
 		this.items = new ArrayList<CartItemBean>();
-
 	}
 
 	public CartBean(CartItemBean items) {

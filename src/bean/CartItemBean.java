@@ -14,6 +14,7 @@ public class CartItemBean {
 	private BookBean item;
 	private int quantity;
 	private int price;
+  
 	
 	public CartItemBean() {
 		super();
@@ -57,6 +58,5 @@ public class CartItemBean {
 	public int getPrice() {
 		return price;
 	}
-	
 	
 }
