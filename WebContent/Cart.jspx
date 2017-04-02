@@ -11,47 +11,46 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form action="" method="POST">
+
 <legend>Items in Shopping Cart...</legend>
 <fieldset>
-<table>
-<tr>
-<td>Book ID</td>
-<td>Book Name</td>
-<td>Quantity</td>
-<td>+1</td>
-<td>-1</td>
-<td>Show</td>
-<td>Remove</td>
-<td>Price</td>
-</tr>
-<c:forEach var="book" items="${books}">
-<tr>
-<td><label>${book.bid}</label></td>
-<td><label>${book.name}</label></td>
-<td><input type="submit" name="minus_one" id="minus_one" value="minus_one_${book.bid}" onclick="validate()"/></td>
-<td><label name="book_${book.bid}" id="book_${book.bid}">${book.quantity}</label></td>
-<td><input type="submit" name="plus_one" id="plus_one" value="plus_one_${book.bid}"/></td>
-<td><button type="button" name="bookView" value="true" onclick="doCategoryAjax('/eBooks/Start/${book.bid}/');return false;">Show</button></td>
-<td><input type="submit" name="remove" id="remove" value="Remove_${book.bid}"/></td>
-<td><label>${book.price}</label></td>
-</tr>
-</c:forEach>
+<table border="1">
+	<tr>
+		<td>Book ID</td>
+		<td>Book Name</td>
+		<td>Quantity</td>
+		<td>Unit Price</td>
+		<td>Total Price</td>
+		<td>Remove</td>
+	</tr>
+	<form action="" method="POST">
+	<c:forEach var="book" items="${sessionScope.cartlist.items}">
+		
+		<tr>
+			<td><label>${book.item.bid}</label></td>
+			<td><label>${book.item.title}</label></td>
+			<td><input type="submit" id="minus_${book.item.bid}" name="minus_${book.item.bid}" value="-"/>
+				<label name="book_${book.item.bid}" id="book_${book.item.bid}">${book.quantity}</label>
+				<input type="submit" id="plus_${book.item.bid}" name="plus_${book.item.bid}" value="+"/>
+			</td>
+			<td><label>${book.item.price}</label></td>
+			<td><label>${book.price}</label></td>
+			<td><input type="submit" id="delete_${book.item.bid}" name="delete_${book.item.bid}" value="Remove"/></td>
+		</tr>
+		
+	</c:forEach>
+	</form>
 </table>
-
-<input type="submit" name="update" id="update" value="update"/>
 
 <div id="bookViewAjax" name="bookViewAjax">No Book Selected</div>
 
 <label>Total ${cart.total}</label>
-
-<input type="submit" name="payment" id="payment" value="payment"/>
-
-
-
+<form action="" method="POST">
+	<input type="submit" name="payment" id="payment" value="payment"/>
+</form>
 
 </fieldset>
-</form>
+
 </body>
 </html>
 </jsp:root>

@@ -11,7 +11,80 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	<fieldset>
+		<legend>User Report</legend>
+		<form action="" method="POST">
+			Please select what type of user activity you want to report<br/>
+			<input type="radio" name="eventtype" value="view">View</input>
+			<input type="radio" name="eventtype" value="cart">Cart</input>
+			<input type="radio" name="eventtype" value="purchase">Purchase</input><br/>
+			Please select which month you want to report<br/>
+			Year: <select id="year" name="year">
+				<option value="2014">2014</option>
+				<option value="2015">2015</option>
+				<option value="2016">2016</option>
+				<option value="2017">2017</option>
+			</select>
+			Month: <select id="month" name="month">
+				<option value="1">January</option>
+				<option value="2">February</option>
+				<option value="3">March</option>
+				<option value="4">April</option>
+				<option value="5">May</option>
+				<option value="6">June</option>
+				<option value="7">July</option>
+				<option value="8">August</option>
+				<option value="9">September</option>
+				<option value="10">October</option>
+				<option value="11">November</option>
+				<option value="12">December</option>
+			</select><br/>
+			<input type="submit" name="submitMonthReport" value="Submit"/><br/>
+			Please select a range of month which you want to report<br/>
+			From: Year <select id="yearbegin" name="yearbegin">
+				<option value="2014">2014</option>
+				<option value="2015">2015</option>
+				<option value="2016">2016</option>
+				<option value="2017">2017</option>
+			</select>
+			Month <select id="monthbegin" name="monthbegin">
+				<option value="1">January</option>
+				<option value="2">February</option>
+				<option value="3">March</option>
+				<option value="4">April</option>
+				<option value="5">May</option>
+				<option value="6">June</option>
+				<option value="7">July</option>
+				<option value="8">August</option>
+				<option value="9">September</option>
+				<option value="10">October</option>
+				<option value="11">November</option>
+				<option value="12">December</option>
+			</select><br/>
+			To: Year <select id="yearend" name="yearend">
+				<option value="2014">2014</option>
+				<option value="2015">2015</option>
+				<option value="2016">2016</option>
+				<option value="2017">2017</option>
+			</select>
+			Month <select id="monthend" name="monthend">
+				<option value="1">January</option>
+				<option value="2">February</option>
+				<option value="3">March</option>
+				<option value="4">April</option>
+				<option value="5">May</option>
+				<option value="6">June</option>
+				<option value="7">July</option>
+				<option value="8">August</option>
+				<option value="9">September</option>
+				<option value="10">October</option>
+				<option value="11">November</option>
+				<option value="12">December</option>
+			</select><br/>
+			<input type="submit" name="submitReport" value="Submit"/>
+		</form>
+		
+	</fieldset>
 </body>
 </html>
 </jsp:root>
