@@ -31,7 +31,7 @@
 			<td><label>${book.item.bid}</label></td>
 			<td><label>${book.item.title}</label></td>
 			<td><input type="submit" id="minus_${book.item.bid}" name="minus_${book.item.bid}" value="-"/>
-				<label name="book_${book.item.bid}" id="book_${book.item.bid}">${book.quantity}</label>
+				<input type="text" name="book_${book.item.bid}" id="book_${book.item.bid}" value="${book.quantity}"/>
 				<input type="submit" id="plus_${book.item.bid}" name="plus_${book.item.bid}" value="+"/>
 			</td>
 			<td><label>${book.item.price}</label></td>

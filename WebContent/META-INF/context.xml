@@ -5,6 +5,6 @@
 	<Resource name="jdbc/EECS" factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
 		type="javax.sql.DataSource" driverClassName="com.mysql.jdbc.Driver"
 		username="root" password="4096"
-		url="jdbc:mysql://localhost:3306/ebooks"/>
+		url="jdbc:mysql://localhost:3306/eBooks"/>
 	<ResourceLink global="jdbc/EECS" name="jdbc/EECS" type="javax.sql.DataSource" />
 </Context>
