@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import DAO.*;
+import analytics.BookVisit;
+import analytics.Popularity;
 import bean.*;
 import model.*;
 
@@ -34,6 +36,7 @@ public class Home extends HttpServlet {
 	private BookReviewDAO reviewDao;
 	private VisitEventDAO visitDao;
 	private AnalyticsModel analyticsmodel;
+	
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -48,8 +51,10 @@ public class Home extends HttpServlet {
 		super.init();
 		try{
 			CartModel cm = new CartModel();
+			Popularity popularity = new Popularity();
 			context = this.getServletContext();
 			context.setAttribute("cartModel", cm);
+			context.setAttribute("popularity", popularity);
 			bookDao = new BookDAO();
 			loginDao = new LoginDAO();
 			purchaseDao = new PurchaseOrderDAO();
@@ -128,6 +133,19 @@ public class Home extends HttpServlet {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
+				}
+				else if(request.getParameter("submitPopular") != null){
+					if(request.getParameter("eventtype").equals("view")){
+						request.setAttribute("mostpopular", context.getAttribute("mostPopularViewed"));
+					}
+					else if(request.getParameter("eventtype").equals("cart")){
+						request.setAttribute("mostpopular", context.getAttribute("mostPopularCarted"));
+					}
+					else if(request.getParameter("eventtype").equals("purchase")){
+						request.setAttribute("mostpopular", context.getAttribute("mostPopularPurchased"));
+					}
+					String target = "/Analytics.jspx";
+					request.getRequestDispatcher(target).forward(request, response);
 				}
 				else{
 					String target = "/Analytics.jspx";
@@ -225,6 +243,7 @@ public class Home extends HttpServlet {
 		//Forward to shopping cart page
 		else if(request.getParameter("shoppingCart") != null){
 			System.out.println("user press shoppingCart button");
+			
 			String target = "/Cart.jspx";
 			session.setAttribute("lastTarget", target);
 			request.getRequestDispatcher(target).forward(request, response);
@@ -409,6 +428,18 @@ public class Home extends HttpServlet {
 	//Need add book into VisitEvent
 	private void addBookToCart(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException{
 		String bookid = (String) request.getAttribute("bookid");
+		
+		Popularity popularity = (Popularity) context.getAttribute("popularity");
+		
+		int containIndex = popularity.checkIfContains(bookid, 2);
+		//if book not in popularity list (means no one put this book into shopping cart before)
+		if(containIndex == -1){
+			popularity.addBookToCart(new BookVisit(bookid, 1));
+		}
+		else{
+			popularity.updateBookToCartByIndex(containIndex, 1);
+		}
+		context.setAttribute("popularity", popularity); //set this attribute and inform listener
 		//if there are no cart (user not add anything to cart)
 		if(session.getAttribute("cartlist")==null){ 
 			CartBean cart = new CartBean(); //create a cart
@@ -463,6 +494,17 @@ public class Home extends HttpServlet {
 	//Need add book into VisitEvent
 	private void reviewBookDetails(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException{
 		String bookid = (String) request.getAttribute("bookid");
+		
+		Popularity popularity = (Popularity) context.getAttribute("popularity");
+		int containIndex = popularity.checkIfContains(bookid, 1);
+		//if book not in popularity list (means no one put this book into shopping cart before)
+		if(containIndex == -1){
+			popularity.addBookToView(new BookVisit(bookid, 1));
+		}
+		else{
+			popularity.updateBookToViewByIndex(containIndex, 1);
+		}
+		context.setAttribute("popularity", popularity); //set this attribute and inform listener
 		//check if the book want to review is inside the search result list
 		@SuppressWarnings("unchecked")
 		BookBean book = listContains((Collection<BookBean>) session.getAttribute("books"), bookid);
@@ -474,6 +516,7 @@ public class Home extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
+		
 		//get all review information for this book and add to session
 		//if there is SQL exception then book review will not add
 		ArrayList<ReviewBean> reviews;
@@ -585,6 +628,8 @@ public class Home extends HttpServlet {
 			address.setZip(request.getParameter("zip"));
 			address.setPhone(request.getParameter("phone"));
 			
+			Popularity popularity = (Popularity) context.getAttribute("popularity");
+
 			CartBean cart = (CartBean) session.getAttribute("cartlist");
 			ArrayList<CartItemBean> items = cart.getItems();
 			ArrayList<CartItemBean> realItem = new ArrayList<CartItemBean>();
@@ -592,6 +637,15 @@ public class Home extends HttpServlet {
 			for(int i=0; i<items.size(); i++){
 				CartItemBean item = items.get(i);
 				if(item.getQuantity()>0){
+					int containIndex = popularity.checkIfContains(item.getItem().getBid(), 3);
+					//if book not in popularity list (means no one put this book into shopping cart before)
+					if(containIndex == -1){
+						popularity.addBookToView(new BookVisit(item.getItem().getBid(), item.getQuantity()));
+					}
+					else{
+						popularity.updateBookToViewByIndex(containIndex, item.getQuantity());
+					}
+					context.setAttribute("popularity", popularity); //set this attribute and inform listener
 					realItem.add(item);
 				}
 			}

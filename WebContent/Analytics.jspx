@@ -9,6 +9,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:f="http://java.sun.com/jsp/jstl/fmt" xmlns:func="http://java.sun.com/jsp/jstl/functions">
 <head>
 <title>Insert title here</title>
+<link rel="StyleSheet" href="${pageContext.request.contextPath}/res/mc.css" type="text/css" title="cse4413" media="screen, print" />
 </head>
 <body>
 	<fieldset>
@@ -17,7 +18,7 @@
 			Please select what type of user activity you want to report<br/>
 			<input type="radio" name="eventtype" value="view">View</input>
 			<input type="radio" name="eventtype" value="cart">Cart</input>
-			<input type="radio" name="eventtype" value="purchase">Purchase</input><br/>
+			<input type="radio" name="eventtype" value="purchase" checked="true">Purchase</input><br/>
 			Please select which month you want to report<br/>
 			Year: <select id="year" name="year">
 				<option value="2014">2014</option>
@@ -83,6 +84,17 @@
 			</select><br/>
 			<input type="submit" name="submitReport" value="Submit"/>
 		</form>
+	</fieldset>
+	<fieldset>
+		<legend>Most Popular Books</legend>
+		<form action="" method="POST">
+			Please select what type of user activity you want to report<br/>
+			<input type="radio" name="eventtype" value="view">View</input>
+			<input type="radio" name="eventtype" value="cart">Cart</input>
+			<input type="radio" name="eventtype" value="purchase" checked="true">Purchase</input><br/>
+			<input type="submit" name="submitPopular" value="Submit"/>
+		</form>
+		
 		
 	</fieldset>
 </body>
