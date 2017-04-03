@@ -62,11 +62,13 @@ public class VisitEventDAO {
 	 * @throws SQLException
 	 */
 	public ReportWrapper getReport(String visitType, String start, String end) throws SQLException{
+		if(visitType!=null && !visitType.equals("")) return null;
 		DateBean date = new DateBean(timeZone); //make a date object for the report generating time
 		Connection con = this.ds.getConnection();
-		String query = "select book.bid, title, price, category, day from visitevent, book "
-				+ "where book.bid=visitevent.bid and eventtype=? and day>? and day<?";
-		PreparedStatement execute = con.prepareStatement(query);
+		StringBuilder queryBuffer = new StringBuilder("select book.bid, title, price, category, day from visitevent, book ");
+		queryBuffer.append("where book.bid=visitevent.bid and day>? and day<?");
+		queryBuffer.append(" and eventtype=?"); 
+		PreparedStatement execute = con.prepareStatement(queryBuffer.toString());
 		int startInt = Integer.parseInt(start);
 		startInt /= 100;
 		int endInt = Integer.parseInt(end);
@@ -87,9 +89,9 @@ public class VisitEventDAO {
 		ArrayList<MonthlyReportWrapper> allReportItems = new ArrayList<MonthlyReportWrapper>();
 		//do all the data adding for every month
 		for(int i=0; i<monthList.size()-1; i++){
-			execute.setString(1, visitType);
-			execute.setString(2, monthList.get(i)); //the start date for this month
-			execute.setString(3, monthList.get(i+1)); //the start date for next month
+			execute.setString(1, monthList.get(i)); //the start date for this month
+			execute.setString(2, monthList.get(i+1)); //the start date for next month
+			execute.setString(3, visitType);
 			//get all visit report for this month
 			ResultSet result = execute.executeQuery();
 			//make an array for this month report

@@ -1,0 +1,48 @@
+
+  html,
+  body{
+    font-family: 'Lato', sans-serif;
+    background-color: #eee;
+  }
+  fieldset{
+    margin: 0 auto;
+    width: 80%;
+    background-color: #fff;
+  }
+  legend{
+    font-size: 1.6rem;
+  }
+  input[type="submit"]{
+    border: 1px solid #eee;
+    color: #fff;
+    background: #0e83cd;
+    cursor: pointer;
+    padding: 10px 30px;
+    font-size: 13px;
+  }
+  input[type="submit"]:hover{
+    border: 1px solid #0e83cd;
+    color: #0e83cd;
+    background: #fff;
+
+  }
+  input[type="radio"]{
+    margin-left: 13px;
+  }
+  hr{
+    display: block;
+    margin: 13px 0;
+  }
+  font{
+    font-size: 1.2em;
+    display: block;
+  }
+  input[id*="comment_"]{
+    line-height: 30px;
+    font-size: 14px;
+  }
+  input#shoppingCart{
+    display: block;
+    margin: 5px auto;
+    font-size: 16px;
+  }
