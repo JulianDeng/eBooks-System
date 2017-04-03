@@ -11,112 +11,106 @@
 <head>
 <title>Insert title here</title>
 <link rel="StyleSheet" href="${pageContext.request.contextPath}/res/mc.css" type="text/css" title="cse4413" media="screen, print" />
+<script type="text/javascript" src="res/Home.js">;</script>
 </head>
 <body>
+<form action="" method="POST" name="cat_form" id="cat_form">
 	<fieldset>
-	<legend>Select your category...</legend>
-	<form action="" method="POST">
-	<table>
+		<legend>Select your category...</legend>
+		<table>
 		<tr>
-			<c:choose>
-			<c:when test="${not empty sessionScope.cat}">
-				<td>
-					<c:choose>
-					<c:when test="${sessionScope.cat eq 'science'}">
-						<input type="radio" name="cat" id="catSci" value="science" checked="true">Science</input>
-					</c:when>
-					<c:otherwise>
-						<input type="radio" name="cat" id="catSci" value="science">Science</input>
-					</c:otherwise>
-					</c:choose>
-				</td>
-				<td>
-					<c:choose>
-					<c:when test="${sessionScope.cat eq 'engineering'}">
-					<input type="radio" name="cat" id="catEng" value="engineering" checked="true">Engineering</input>
-					</c:when>
-					<c:otherwise>
-					<input type="radio" name="cat" id="catEng" value="engineering">Engineering</input>
-					</c:otherwise>
-					</c:choose>
-				</td>
-				<td>
-					<c:choose>
-					<c:when test="${sessionScope.cat eq 'fiction'}">
-					<input type="radio" name="cat" id="catFic" value="fiction" checked="true">Fiction</input>
-					</c:when>
-					<c:otherwise>
-					<input type="radio" name="cat" id="catFic" value="fiction">Fiction</input>
-					</c:otherwise>
-					</c:choose>
-				</td>
-			</c:when>
-			<c:otherwise>
-				<td>
-					<input type="radio" name="cat" id="catSci" value="science">Science</input>
-				</td>
-				<td>
-					<input type="radio" name="cat" id="catEng" value="engineering">Engineering</input>
-				</td>
-				<td>
-					<input type="radio" name="cat" id="catFic" value="fiction">Fiction</input>
-				</td>
-			</c:otherwise>
-			</c:choose>
+			<td>
+ 				<input type="radio" onclick="submit()" name="cat" id="catSci" value="science">Science</input>
+ 			</td>
+ 			<td>
+ 				<input type="radio" onclick="submit()" name="cat" id="catEng" value="engineering">Engineering</input>
+ 			</td>
+ 			<td>
+ 				<input type="radio" onclick="submit()" name="cat" id="catFic" value="fiction">Fiction</input>
+ 			</td>
 		</tr>
+		</table>
+	</fieldset>
+</form>
+<form action="" method="POST" name="search_form" id="search_form">
+	<fieldset>
+	<legend>Or do a global search for all books...</legend>
+	<table>
 		<tr>
 			<td colspan="2">
 				<label>Search </label>
-				<input type="text" name="searchText" id="searchText" value="${sessionScope.searchText}"/>
+				<input type="text" name="searchText" id="searchText"/>
 			</td>
 			<td>
 				<input type="submit" name="search" id="search" value="Search"/>
 			</td>
 		</tr>
 	</table>
-	</form>
 	</fieldset>
-	<c:if test="${not empty sessionScope.books}">
-		<fieldset>
-		<legend>Search Result</legend>
-		<div id="bookList" name="bookList" >
-			<c:forEach var="book" items="${sessionScope.books}">
-				<hr/>
-				<form action="" method="POST">
-				<font size="2">Title: ${book.title}</font><br/>
-				<input type="submit" name="add_${book.bid}" id="add_${book.bid}" value="Add to cart"/> 
-				<input type="submit" name="review_${book.bid}" id="review_${book.bid}" value="Review"/><br/>
-				<input type="submit" name="rate_${book.bid}" id="rate_${book.bid}" value="Rate"/>
-				<input type="radio" name="rating" value="1">1</input>
-				<input type="radio" name="rating" value="2">2</input>
-				<input type="radio" name="rating" value="3">3</input>
-				<input type="radio" name="rating" value="4">4</input>
-				<input type="radio" name="rating" value="5">5</input><br/>
-				<input type="submit" name="commentbtn_${book.bid}" id="commentbtn_${book.bid}" value="Write Comment"/>
-				<input name="comment_${book.bid}" id="comment_${book.bid}" type="text"/>
-				<c:if test="${not empty sessionScope.bookReviewing and sessionScope.bookReviewing.item.bid eq book.bid}">
+</form>
+				<div>
+				<c:if test="${not empty sessionScope.bookPreviewing}">
+				<form action="" method="POST" name="form_rate_${bookPreviewing.item.bid}" id="form_rate_${bookPreviewing.item.bid}">
 					<fieldset>
-					<legend><font size="2">Review for ${book.title}</font></legend>
-						<font size="2">Price: ${book.price}<br/>
-						Category: ${book.category}<br/>
-						Overall Rating: ${sessionScope.bookReviewing.rating}<br/>
-						Comment:
-						<c:if test="${empty sessionScope.bookReviewing.review}">No comment yet</c:if>
-						<c:forEach var="bookrevBean" items="${sessionScope.bookReviewing.review}">
-							<br/>${bookrevBean.review}
+						<legend><font size="2">Preview for ${bookPreviewing.item.title}</font></legend>
+						<font size="2">
+						Title: ${bookPreviewing.item.title}<br/>
+						Price: ${bookPreviewing.item.price}<br/>
+						Category: ${bookPreviewing.item.category}<br/>
+						Overall Rating: ${sessionScope.bookPreviewing.rating}<br/>
+						Review:
+						<c:if test="${empty sessionScope.bookPreviewing.review}">No comment yet</c:if>
+						<table>
+						<c:forEach var="bookrevBean" items="${sessionScope.bookPreviewing.review}">
+							<tr>
+							<td>${bookrevBean.review} </td>
+							<td><span style="font-size:75%"><i><b>--------     commented on ${bookrevBean.date}</b></i></span></td>
+							</tr>
 						</c:forEach>
+						</table>
 						</font>
+						<input type="submit" name="commentbtn_${bookPreviewing.item.bid}" id="commentbtn_${bookPreviewing.item.bid}" value="Write Comment"/>
+						<input type="text" name="comment_${bookPreviewing.item.bid}" id="comment_${bookPreviewing.item.bid}"/><br/>
+						<input type="submit" name="rate_${bookPreviewing.item.bid}" id="rate_${bookPreviewing.item.bid}" value="Rate" onclick="return validateRate(rating_${bookPreviewing.item.bid})"/>
+						<input type="radio" name="rating_${bookPreviewing.item.bid}" id="rating_${bookPreviewing.item.bid}" value="1">1</input>
+ 						<input type="radio" name="rating_${bookPreviewing.item.bid}" id="rating_${bookPreviewing.item.bid}" value="2">2</input>
+ 						<input type="radio" name="rating_${bookPreviewing.item.bid}" id="rating_${bookPreviewing.item.bid}"  value="3">3</input>
+ 						<input type="radio" name="rating_${bookPreviewing.item.bid}" id="rating_${bookPreviewing.item.bid}"  value="4">4</input>
+ 						<input type="radio" name="rating_${bookPreviewing.item.bid}" id="rating_${bookPreviewing.item.bid}"  value="5">5</input>
+ 						<div id="msgRate"></div><br/>
 					</fieldset>
-				</c:if>
 				</form>
-			</c:forEach>
+				</c:if>
+				</div>
+<c:if test="${not empty sessionScope.books}">
+	<fieldset>
+	<legend>Result</legend>
+	<c:choose>
+ 		<c:when test="${not empty cat}">
+ 			<h4>Category selected: ${cat}</h4>
+ 		</c:when>
+ 		<c:when test="${not empty searchText}">
+ 			<h4>Books containing keyword: ${searchText}</h4>
+ 		</c:when>
+ 	</c:choose>
+ 	<h5>${func:length(sessionScope.books)} books are found.</h5>
+	<div id="bookList" name="bookList" >
+		<c:forEach var="book" items="${sessionScope.books}">
 			<hr/>
-		</div>
-		</fieldset>
-	</c:if>
-	<form action="" method="POST">
-		<input type="submit" name="shoppingCart" id="shoppingCart" value="shoppingCart"/>
-	</form>
+			<form action="" method="POST" name="form_book_${book.bid}" id="form_book_${book.bid}">
+				<font size="2">${book.title}</font>
+				<input type="submit" name="preview_${book.bid}" id="preview_${book.bid}" value="Preview"/>
+				<input type="submit" name="add_${book.bid}" id="add_${book.bid}" value="Add to cart"/> 
+ 			</form>
+
+		</c:forEach>
+		<hr/>
+	</div>
+	</fieldset>
+</c:if>
+<form action="" method="POST">
+	<input type="submit" name="shoppingCart" id="shoppingCart" value="shoppingCart"/>
+</form>
 </body>
 </html>
 </jsp:root>
