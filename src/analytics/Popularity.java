@@ -2,10 +2,12 @@ package analytics;
 
 import java.util.ArrayList;
 
+import bean.CartItemBean;
+
 public class Popularity {
-	private ArrayList<BookVisit> view;
-	private ArrayList<BookVisit> cart;
-	private ArrayList<BookVisit> purchase;
+	private ArrayList<BookVisit> view;              // a visit of viewing book detail
+	private ArrayList<BookVisit> cart;              // a visit of adding book to shopping cart
+	private ArrayList<BookVisit> purchase;          // a visit of purchasing book.
 	
 	public Popularity(){
 		this.view = new ArrayList<BookVisit>();
@@ -159,6 +161,42 @@ public class Popularity {
 			}
 		}
 		return bookvisit;
+	}
+
+	public void updateView(String bookid) {
+		int containIndex = checkIfContains(bookid, 1);
+		//if book not in popularity list (means no one put this book into shopping cart before)
+		if(containIndex == -1){
+			addBookToView(new BookVisit(bookid, 1));
+		}
+		else{
+			updateBookToViewByIndex(containIndex, 1);
+		}		
+	}
+
+	public void updateCart(String bookid) {
+		int containIndex = checkIfContains(bookid, 2);
+		//if book not in popularity list (means no one put this book into shopping cart before)
+		if(containIndex == -1){
+			addBookToCart(new BookVisit(bookid, 1));
+		}
+		else{
+			updateBookToCartByIndex(containIndex, 1);
+		}
+		
+	}
+
+	public void updatePurchase(ArrayList<CartItemBean> realItem) {
+		for (int i = 0; i < realItem.size(); i++){
+			CartItemBean item = realItem.get(i);
+			int containIndex = checkIfContains(item.getItem().getBid(), 3);
+			if(containIndex == -1){
+				addBookToView(new BookVisit(item.getItem().getBid(), item.getQuantity()));
+			}
+			else{
+				updateBookToViewByIndex(containIndex, item.getQuantity());
+			}
+		}		
 	}
 	
 }

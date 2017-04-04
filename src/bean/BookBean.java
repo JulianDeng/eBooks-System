@@ -15,11 +15,10 @@ public class BookBean {
 	
 	
 	public BookBean(){
-		super();
+		
 	}
 
 	public BookBean(String bid, String title, int price, String category) {
-		super();
 		this.bid = bid;
 		this.title = title;
 		this.price = price;

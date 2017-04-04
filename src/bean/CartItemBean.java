@@ -17,10 +17,9 @@ public class CartItemBean {
   
 	
 	public CartItemBean() {
-		super();
+ 
 	}
 	public CartItemBean(BookBean item, int quantity) {
-		super();
 		this.item = item;
 		this.quantity = quantity;
 		this.price = item.getPrice()*quantity;

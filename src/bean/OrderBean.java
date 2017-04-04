@@ -3,18 +3,19 @@ package bean;
 import java.util.ArrayList;
 
 public class OrderBean {
+	
 	private ArrayList<CartItemBean> items;
 	private int orderID;
 	private String status;
 	private AddressBean address;
 	private int uid;
 	
+	
 	public OrderBean(){
 		
 	}
 	
 	public OrderBean(ArrayList<CartItemBean> items, int orderID, String status, AddressBean address, int uid) {
-		super();
 		this.items = items;
 		this.orderID = orderID;
 		this.status = status;

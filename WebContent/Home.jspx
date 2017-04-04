@@ -14,32 +14,44 @@
 <script type="text/javascript" src="res/Home.js">;</script>
 </head>
 <body>
-<form action="" method="POST" name="cat_form" id="cat_form">
+<form action="" method="POST" name="criteria" id="criteria">
 	<fieldset>
-		<legend>Select your category...</legend>
+		<legend>Search criteria</legend>
+		<h4>Select your cateogry...</h4>
 		<table>
 		<tr>
-			<td>
- 				<input type="radio" onclick="submit()" name="cat" id="catSci" value="science">Science</input>
- 			</td>
- 			<td>
- 				<input type="radio" onclick="submit()" name="cat" id="catEng" value="engineering">Engineering</input>
- 			</td>
- 			<td>
- 				<input type="radio" onclick="submit()" name="cat" id="catFic" value="fiction">Fiction</input>
- 			</td>
+			<c:choose>
+			<c:when test="${cat eq 'science'}">
+				<td><input type="radio" name="cat" id="catSci" value="science" checked="true">Science</input></td>
+ 				<td><input type="radio" name="cat" id="catEng" value="engineering">Engineering</input></td>
+ 				<td><input type="radio" name="cat" id="catFic" value="fiction">Fiction</input></td>	
+			</c:when>
+			<c:when test="${cat eq 'engineering'}">
+				<td><input type="radio" name="cat" id="catSci" value="science">Science</input></td>
+ 				<td><input type="radio" name="cat" id="catEng" value="engineering" checked="true">Engineering</input></td>
+ 				<td><input type="radio" name="cat" id="catFic" value="fiction">Fiction</input></td>				
+			</c:when>
+			<c:when test="${cat eq 'fiction'}">
+				<td><input type="radio" name="cat" id="catSci" value="science">Science</input></td>
+ 				<td><input type="radio" name="cat" id="catEng" value="engineering">Engineering</input></td>
+ 				<td><input type="radio" name="cat" id="catFic" value="fiction" checked="true">Fiction</input></td>				
+			</c:when>
+			<c:otherwise>
+				<td><input type="radio" name="cat" id="catSci" value="science">Science</input></td>
+ 				<td><input type="radio" name="cat" id="catEng" value="engineering">Engineering</input></td>
+ 				<td><input type="radio" name="cat" id="catFic" value="fiction">Fiction</input></td>			
+			</c:otherwise>
+			</c:choose>
+
+ 			<td><input type="submit" name="select" id="select" value="select"/></td>
 		</tr>
 		</table>
-	</fieldset>
-</form>
-<form action="" method="POST" name="search_form" id="search_form">
-	<fieldset>
-	<legend>Or do a global search for all books...</legend>
+	<h4>Or do a keyword search in specified category...(global search if category not selected)</h4>
 	<table>
 		<tr>
 			<td colspan="2">
 				<label>Search </label>
-				<input type="text" name="searchText" id="searchText"/>
+				<input type="text" name="searchText" id="searchText" value="${searchText}"/>
 			</td>
 			<td>
 				<input type="submit" name="search" id="search" value="Search"/>
@@ -53,7 +65,8 @@
 				<form action="" method="POST" name="form_rate_${bookPreviewing.item.bid}" id="form_rate_${bookPreviewing.item.bid}">
 					<fieldset>
 						<legend><font size="2">Preview for ${bookPreviewing.item.title}</font></legend>
-						<font size="2">
+						<input type="submit" name="add_${bookPreviewing.item.bid}" id="add_${bookPreviewing.item.bid}" value="Add to cart"/><br/>
+						<span style="font-size:100%">
 						Title: ${bookPreviewing.item.title}<br/>
 						Price: ${bookPreviewing.item.price}<br/>
 						Category: ${bookPreviewing.item.category}<br/>
@@ -68,7 +81,7 @@
 							</tr>
 						</c:forEach>
 						</table>
-						</font>
+						</span>
 						<input type="submit" name="commentbtn_${bookPreviewing.item.bid}" id="commentbtn_${bookPreviewing.item.bid}" value="Write Comment"/>
 						<input type="text" name="comment_${bookPreviewing.item.bid}" id="comment_${bookPreviewing.item.bid}"/><br/>
 						<input type="submit" name="rate_${bookPreviewing.item.bid}" id="rate_${bookPreviewing.item.bid}" value="Rate" onclick="return validateRate(rating_${bookPreviewing.item.bid})"/>
@@ -82,7 +95,6 @@
 				</form>
 				</c:if>
 				</div>
-<c:if test="${not empty sessionScope.books}">
 	<fieldset>
 	<legend>Result</legend>
 	<c:choose>
@@ -100,14 +112,13 @@
 			<form action="" method="POST" name="form_book_${book.bid}" id="form_book_${book.bid}">
 				<font size="2">${book.title}</font>
 				<input type="submit" name="preview_${book.bid}" id="preview_${book.bid}" value="Preview"/>
-				<input type="submit" name="add_${book.bid}" id="add_${book.bid}" value="Add to cart"/> 
+				<input type="submit" name="add_${book.bid}" id="add_${book.bid}" value="Add to cart"/>
  			</form>
 
 		</c:forEach>
 		<hr/>
 	</div>
 	</fieldset>
-</c:if>
 <form action="" method="POST">
 	<input type="submit" name="shoppingCart" id="shoppingCart" value="shoppingCart"/>
 </form>

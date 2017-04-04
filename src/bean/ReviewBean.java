@@ -12,7 +12,6 @@ public class ReviewBean {
 	}
 	
 	public ReviewBean(String bid, String review, String date) {
-		super();
 		this.bid = bid;
 		this.review = review;
 		this.date = date;

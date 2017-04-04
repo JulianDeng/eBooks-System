@@ -5,10 +5,9 @@ public class AddressBean {
 	private String street, province, country, zip, phone;
 	
 	public AddressBean(){
-		super();
+		
 	}
 	public AddressBean(int id, String street, String province, String country, String zip, String phone) {
-		super();
 		this.id = id;
 		this.street = street;
 		this.province = province;

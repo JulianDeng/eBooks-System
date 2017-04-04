@@ -6,12 +6,10 @@ public class CartBean {
 	private ArrayList<CartItemBean> items;
 	
 	public CartBean(){
-		super();
 		this.items = new ArrayList<CartItemBean>();
 	}
 
 	public CartBean(CartItemBean items) {
-		super();
 		this.items = new ArrayList<CartItemBean>();
 		this.items.add(items);
 	}
@@ -48,6 +46,7 @@ public class CartBean {
 			}
 		}
 	}
+	
 	public void removeOneExistItemByBid(String bid) {
 		int size = this.items.size();
 		for(int i=0; i<size; i++){
