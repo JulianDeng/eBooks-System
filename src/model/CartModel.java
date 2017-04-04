@@ -3,15 +3,12 @@ package model;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
 
 import DAO.BookDAO;
 import DAO.BookReviewDAO;
 import DAO.LoginDAO;
 import DAO.PurchaseOrderDAO;
 import DAO.VisitEventDAO;
-import analytics.BookVisit;
 import bean.AddressBean;
 import bean.BookBean;
 import bean.BookInfoBean;

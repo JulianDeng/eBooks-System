@@ -31,7 +31,7 @@
 			<td><label>${book.item.bid}</label></td>
 			<td><label>${book.item.title}</label></td>
 			<td><input type="submit" id="minus_${book.item.bid}" name="minus_${book.item.bid}" value="-"/>
-				<input type="text"  class="bookitem" name="book_${book.item.bid}" id="book_${book.item.bid}" value="${book.quantity}" onchange="validate(); doCartAjax('/eBooks/Home/Ajax/'); return false;"/>
+				<input type="text"  class="bookitem" name="book_${book.item.bid}" id="book_${book.item.bid}" value="${book.quantity}" onchange="validate('${book.item.bid}'); return false;"/>
 				<input type="submit" id="plus_${book.item.bid}" name="plus_${book.item.bid}" value="+"/>
 			</td>
 			<td><label>${book.item.price}</label></td>
@@ -41,19 +41,18 @@
 	</c:forEach>
 	</form>
 </table>
-
-<div id="bookViewAjax" name="bookViewAjax">No Book Selected</div>
-
+<form action="" method="POST">
 <table>
 	<tr>
-	<td><label>Total amount: $</label></td>
-	<td><label name="totalPriceAjax" id="totalPriceAjax">{cartlist.total}</label></td>
+		<td>
+		<c:if test="${func:length(sessionScope.cartlist.items) gt 0}"><input type="submit" name="payment" id="payment" value="payment"/></c:if>
+		<input type="submit" name="searchAgain" id="searchAgain" value="search again"/>
+		</td>
+		<td name="totalPriceAjax" id="totalPriceAjax">
+			<div>Total amount: $${cartlist.total}</div>
+		</td>
 	</tr>
 </table>
-
-<form action="" method="POST">
-    <c:if test="${func:length(sessionScope.cartlist.items) gt 0}"><input type="submit" name="payment" id="payment" value="payment"/></c:if>
-	<input type="submit" name="searchAgain" id="searchAgain" value="search again"/>
 </form>
 </fieldset>
 </body>
