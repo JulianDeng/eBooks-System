@@ -20,9 +20,28 @@
 		<h4>Select your cateogry...</h4>
 		<table>
 		<tr>
-			<td><input type="radio" name="cat" id="catSci" value="science">Science</input></td>
- 			<td><input type="radio" name="cat" id="catEng" value="engineering">Engineering</input></td>
- 			<td><input type="radio" name="cat" id="catFic" value="fiction">Fiction</input></td>
+			<c:choose>
+			<c:when test="${cat eq 'science'}">
+				<td><input type="radio" name="cat" id="catSci" value="science" checked="true">Science</input></td>
+ 				<td><input type="radio" name="cat" id="catEng" value="engineering">Engineering</input></td>
+ 				<td><input type="radio" name="cat" id="catFic" value="fiction">Fiction</input></td>	
+			</c:when>
+			<c:when test="${cat eq 'engineering'}">
+				<td><input type="radio" name="cat" id="catSci" value="science">Science</input></td>
+ 				<td><input type="radio" name="cat" id="catEng" value="engineering" checked="true">Engineering</input></td>
+ 				<td><input type="radio" name="cat" id="catFic" value="fiction">Fiction</input></td>				
+			</c:when>
+			<c:when test="${cat eq 'fiction'}">
+				<td><input type="radio" name="cat" id="catSci" value="science">Science</input></td>
+ 				<td><input type="radio" name="cat" id="catEng" value="engineering">Engineering</input></td>
+ 				<td><input type="radio" name="cat" id="catFic" value="fiction" checked="true">Fiction</input></td>				
+			</c:when>
+			<c:otherwise>
+				<td><input type="radio" name="cat" id="catSci" value="science">Science</input></td>
+ 				<td><input type="radio" name="cat" id="catEng" value="engineering">Engineering</input></td>
+ 				<td><input type="radio" name="cat" id="catFic" value="fiction">Fiction</input></td>			
+			</c:otherwise>
+			</c:choose>
  			<td><input type="submit" name="select" id="select" value="select"/></td>
 		</tr>
 		</table>

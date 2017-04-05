@@ -1,27 +1,20 @@
-function doCartAjax(address){
+function doCartAjax(bid, quantity, address){
+
 	 var request = new XMLHttpRequest();
 	 var data=``;
 
 	 /* add your code here to grab all parameters from form*/
+	 data += bid;
+	 data += "=";
+	 data += quantity;
 	 
-	 var books = document.getElementsByClassName("bookitem");
-	 for(var i = 0; i < books.length; i++){
-		 var bid = books[i].getAttribute("name");
-		 var quantity = books[i].value;
-		 data += bid;
-		 data += "=";
-		 data += quantity;
-		 if(i != books.length - 1){
-			 data += "&"
-		 }		 
-	 }
-
 	 /*=========================================*/
-	 request.open("GET", (address + "?" + data), true);
+	 request.open("POST", address, true);
+	 request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 	 request.onreadystatechange = function() {
 	 handlerCart(request);
 	 };
-	 request.send(null);
+	 request.send(data);
 } 
 
 function handlerCart(request){
@@ -31,6 +24,15 @@ function handlerCart(request){
 	 }
 } 
 
-function validate(){
+
+function validate(bid){
 	// ensure no negative quantity exists.
+	var id = "book_" + bid;
+	var quantity = document.getElementById(id).value;
+	if(!(quantity.match(/[1-9][0-9]*/) && parseInt(quantity) > 0 && parseInt(quantity) < 100)){
+		alert("quantity must be positive integer and less than 100!!!");
+	}else{
+		doCartAjax(bid, quantity, '/eBooks/Home/Ajax/'); 
+	}	
+
 }

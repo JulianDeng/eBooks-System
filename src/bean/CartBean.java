@@ -4,9 +4,11 @@ import java.util.ArrayList;
 
 public class CartBean {
 	private ArrayList<CartItemBean> items;
+	private int total;
 	
 	public CartBean(){
 		this.items = new ArrayList<CartItemBean>();
+		this.total = 0;
 	}
 
 	public CartBean(CartItemBean items) {
@@ -22,10 +24,18 @@ public class CartBean {
 		return items.get(index);
 	}
 	
+	public int getTotal(){
+		return this.total;
+	}
+	
+	public void setTotal(int amount){
+		this.total = amount;
+	}
+	
 	public int contains(CartItemBean item) {
 		int result = -1;
 		for(int i=0; i<items.size(); i++){
-			if(items.get(i).equals(item)){
+			if(items.get(i).getItem().equals(item.getItem())){
 				result=i;
 				break;
 			}
@@ -59,20 +69,15 @@ public class CartBean {
 	
 	/**
 	 * If this book already inside shopping cart, return false, else return true 
-	 * @param items
+	 * @param item
 	 * @return
 	 */
-	public boolean addItems(CartItemBean items) {
-		int size = this.items.size();
-		for(int i=0; i<size; i++){
-			//if this book already inside shopping cart
-			if(this.items.get(i).getItem().isEqual(items.getItem())){
-				//this.items.get(i).addQuantity(items.getQuantity());
-				return false;
-			}
+	public void addItems(CartItemBean item) {
+		if(this.contains(item) != -1){
+			this.addOneExistItemByBid(this.items.get(this.contains(item)).getItem().getBid());
+		}else{
+			this.items.add(item);			
 		}
-		this.items.add(items);
-		return true;
 	}
 	
 	public void deleteItemByIndex(int index) {
@@ -92,6 +97,22 @@ public class CartBean {
 				this.items.remove(i);
 				return;
 			}
+		}
+	}
+	
+	public void updateItemByid(String bid, int quantity){
+		for(CartItemBean cItem : this.items){
+			if(cItem.getItem().getBid().equals(bid)){
+				cItem.setQuantity(quantity);
+			}
+		}
+	}
+	
+	
+	public void computeTotal(){
+		this.total = 0;
+		for(CartItemBean cItem : this.items){
+			this.total += cItem.getPrice();
 		}
 	}
 	

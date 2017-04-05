@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlType(propOrder={"orderID", "uid", "status", "address"})
 public class OrderBean {
+	
 	private ArrayList<CartItemBean> items;
 	@XmlElement(name="orderId")
 	private int orderID;

@@ -116,11 +116,19 @@ public class Home extends HttpServlet {
 		
 		//*****************************user change quantity of books via Ajax***********************
 		else if(request.getPathInfo() != null && request.getPathInfo().equals("/Ajax/")){
-			Map<String, String[]> booksInCart = request.getParameterMap();
+			Enumeration <String> params = request.getParameterNames();
+			CartBean cart = (CartBean) session.getAttribute("cartlist");
+			while(params.hasMoreElements()){
+				String name = params.nextElement();
+				String value = request.getParameter(name);
+				cart.updateItemByid(name, Integer.parseInt(value));
+			}
+			cart.computeTotal();
+			session.setAttribute("cartlist", cart);
 			
 			response.setContentType("text/html");
 			PrintWriter pw = response.getWriter();
-			
+			pw.println("<label>Total amount: $" + cart.getTotal());	
 		}
 		
 		
@@ -337,6 +345,10 @@ public class Home extends HttpServlet {
 	
 	private void moveToCartPage(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			CartModel cm) throws ServletException, IOException {
+		CartBean cart = (CartBean) session.getAttribute("cartlist");
+		cart.computeTotal();
+		
+
 		session.removeAttribute("bookPreviewing");
 		session.setAttribute("lastTarget", "/Home.jspx");			// record last visit page
 		String target = "/Cart.jspx";
@@ -350,6 +362,7 @@ public class Home extends HttpServlet {
 		CartBean cart = (CartBean) session.getAttribute("cartlist");
 		
 		cart.addOneExistItemByBid(bookID);
+		cart.computeTotal();
 		request.removeAttribute("bookid");
 		
 		String target = "/Cart.jspx";
@@ -362,7 +375,9 @@ public class Home extends HttpServlet {
 		String bookID = (String) request.getAttribute("bookid");
 		CartBean cart = (CartBean) session.getAttribute("cartlist");
 		
-		cart.removeOneExistItemByBid(bookID);		
+		cart.removeOneExistItemByBid(bookID);
+		cart.computeTotal();
+
 		request.removeAttribute("bookid");
 		
 		String target = "/Cart.jspx";
@@ -375,7 +390,9 @@ public class Home extends HttpServlet {
 		String bookID = (String) request.getAttribute("bookid");
 		CartBean cart = (CartBean) session.getAttribute("cartlist");
 		
-		cart.deleteItemByBid(bookID);		
+		cart.deleteItemByBid(bookID);	
+		cart.computeTotal();
+
 		request.removeAttribute("bookid");
 		
 		String target = "/Cart.jspx";
@@ -386,8 +403,12 @@ public class Home extends HttpServlet {
 	//if user goes to payment page and start enter his payment information
 	private void makePayment(HttpServletRequest request, HttpServletResponse response, HttpSession session, CartModel cm) throws ServletException, IOException{
 		session.setAttribute("lastTarget", "/Cart.jspx");
+
+		CartBean cart = (CartBean) session.getAttribute("cartlist");
+		cart.computeTotal();
 		if(session.getAttribute("someuserLogin") != null){
-			CartBean cart = (CartBean) session.getAttribute("cartlist");
+			cart = (CartBean) session.getAttribute("cartlist");
+
 			System.out.println(cart);
 			String target = "/Payment.jspx";
 			request.getRequestDispatcher(target).forward(request, response);
@@ -526,7 +547,9 @@ public class Home extends HttpServlet {
 			target = "/Login.jspx";
 		}
 		request.getRequestDispatcher(target).forward(request, response);
+
 	}
+
 	
 
 	private void goBack(HttpServletRequest request, HttpServletResponse response, HttpSession session, CartModel cm) throws ServletException, IOException {
