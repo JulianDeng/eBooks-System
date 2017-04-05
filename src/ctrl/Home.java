@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.sun.research.ws.wadl.Request;
+
 import DAO.*;
 import analytics.BookVisit;
 import analytics.Popularity;
@@ -61,8 +63,8 @@ public class Home extends HttpServlet {
 		HttpSession session = request.getSession();
 		CartModel cm = (CartModel) context.getAttribute("cartModel");
 		System.out.println(request.getQueryString());
-		
-		
+
+
 		//*********************************user select a category******************************************
 		if(request.getParameter("select") != null){
 		 	System.out.println("user select a category");		 	
@@ -114,7 +116,7 @@ public class Home extends HttpServlet {
 		}
 
 		
-		//*****************************user change quantity of books via Ajax***********************
+		//*****************************user change quantity of books via Ajax textbox***********************
 		else if(request.getPathInfo() != null && request.getPathInfo().equals("/Ajax/")){
 			Enumeration <String> params = request.getParameterNames();
 			CartBean cart = (CartBean) session.getAttribute("cartlist");
@@ -223,8 +225,6 @@ public class Home extends HttpServlet {
 		}
 
 	}
-
-
 
 
 

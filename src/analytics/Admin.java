@@ -88,10 +88,13 @@ public class Admin extends HttpServlet {
 					if(month.length()==1) month = "0"+month;
 					BookVisitReportWrapper report = visitDao.getReport(eventtype, year+month+"01");
 					
-					String f = "analytics"+ File.separator + request.getSession().getId()+".xml";
+					String f = "analytics"+ File.separator + "monthVisitReport.xml";
 					String filename = this.getServletContext().getRealPath(File.separator + f);
 					System.out.println(filename);
 					analyticsmodel.exportVisitReport(report, filename);
+					
+					request.setAttribute("monthReport", f);
+					request.getRequestDispatcher("AnalysisResult.jspx").forward(request, response);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				} catch (Exception e) {
@@ -111,9 +114,12 @@ public class Admin extends HttpServlet {
 					String dateEnd = yearend+monthend+"00";
 					BookVisitReportWrapper report = visitDao.getReport(eventtype, dateBegin, dateEnd);
 					
-					String f = "analytics"+ File.separator + request.getSession().getId()+".xml";
+					String f = "analytics"+ File.separator + "monthVisitReport.xml";
 					String filename = this.getServletContext().getRealPath(File.separator + f);
 					analyticsmodel.exportVisitReport(report, filename);
+					
+					request.setAttribute("branchOfMonthReport", f);
+					request.getRequestDispatcher("AnalysisResult.jspx").forward(request, response);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				} catch (Exception e) {
@@ -134,12 +140,14 @@ public class Admin extends HttpServlet {
 				request.getRequestDispatcher(target).forward(request, response);
 			}
 			else if(request.getParameter("submitAnnomizedReport") != null){
-				AnnomizedReportWrapper report = (AnnomizedReportWrapper) request.getAttribute("annomizedReport");
-				String f = "analytics"+ File.separator + request.getSession().getId()+".xml";
-				String filename = this.getServletContext().getRealPath(File.separator + f);
-				System.out.println(filename);
 				try {
+					AnnomizedReportWrapper report = (AnnomizedReportWrapper) request.getAttribute("annomizedReport");
+					String f = "analytics"+ File.separator + "annomizedReport.xml";
+					String filename = this.getServletContext().getRealPath(File.separator + f);
+					System.out.println(filename);
 					analyticsmodel.exportAnnomizedReport(report, filename);
+					request.setAttribute("annomizedReport", f);
+					request.getRequestDispatcher("AnalysisResult.jspx").forward(request, response);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

@@ -61,7 +61,7 @@ public class BookDAO {
 		StringBuilder queryBuffer = new StringBuilder("select * from BOOK ");
 		queryBuffer.append("where title like ? and price>=? and price<=?");
 		
-		if(category.equals("")){
+		if(!category.equals("")){
 			queryBuffer.append(" and category=?");
 		}
 		
@@ -70,7 +70,7 @@ public class BookDAO {
 		execute.setString(1, "%"+titlePrefix+"%");
 		execute.setInt(2, minPrice);
 		execute.setInt(3, maxPrice);
-		if(category!=null && !category.equals("")){
+		if(!category.equals("")){
 			execute.setString(4, category);
 		}
 		ResultSet result = execute.executeQuery();

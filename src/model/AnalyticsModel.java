@@ -44,6 +44,7 @@ public class AnalyticsModel {
 		
 	    StringWriter sw = new StringWriter();
 	    sw.write("<?xml version='1.0'?>\n");
+	    sw.write("<?xml-stylesheet type=\"text/xsl\" href=\"bookSold.xsl\"?>\n");
 	    ms.marshal(report, sw);
 	    //System.out.println(sw.toString());
 	    FileWriter fw = new FileWriter(filename);
@@ -67,6 +68,7 @@ public class AnalyticsModel {
 		
 	    StringWriter sw = new StringWriter();
 	    sw.write("<?xml version='1.0'?>\n");
+	    sw.write("<?xml-stylesheet type=\"text/xsl\" href=\"annomized.xsl\"?>\n");
 	    ms.marshal(report, sw);
 	    //System.out.println(sw.toString());
 	    FileWriter fw = new FileWriter(filename);
