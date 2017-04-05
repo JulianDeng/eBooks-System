@@ -116,7 +116,7 @@ public class Home extends HttpServlet {
 		}
 
 		
-		//*****************************user change quantity of books via Ajax***********************
+		//*****************************user change quantity of books via Ajax textbox***********************
 		else if(request.getPathInfo() != null && request.getPathInfo().equals("/Ajax/")){
 			Enumeration <String> params = request.getParameterNames();
 			CartBean cart = (CartBean) session.getAttribute("cartlist");
@@ -133,9 +133,9 @@ public class Home extends HttpServlet {
 			
 			response.setContentType("text/html");
 			PrintWriter pw = response.getWriter();
+
 			pw.println("<label>Total amount: $" + total + "~" + name + "~" + subtotal + "~");	
-			
-			
+
 		}
 		
 		
@@ -226,8 +226,6 @@ public class Home extends HttpServlet {
 		}
 
 	}
-
-
 
 
 
@@ -353,7 +351,7 @@ public class Home extends HttpServlet {
 			cart.computeTotal();
 			session.setAttribute("cartlist", cart);			
 		}
-		
+	
 		session.setAttribute("lastTarget", "/Home.jspx");			// record last visit page
 		String target = "/Cart.jspx";
 		request.getRequestDispatcher(target).forward(request, response);
