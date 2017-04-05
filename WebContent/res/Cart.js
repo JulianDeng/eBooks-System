@@ -29,10 +29,21 @@ function validate(bid, address){
 	// ensure no negative quantity exists.
 	var id = "book_" + bid;
 	var quantity = document.getElementById(id).value;
-	if(!(quantity.match(/[1-9][0-9]*/) && parseInt(quantity) > 0 && parseInt(quantity) < 100)){
+	if(!(quantity.match(/[0-9]*/) && parseInt(quantity) >= 0 && parseInt(quantity) < 100)){
 		alert("quantity must be positive integer and less than 100!!!");
 	}else{
 		doCartAjax(bid, quantity, address); 
 	}	
 
+}
+
+function validatebtn(bid, address, operation){
+	var id = "book_" + bid;
+	var quantity = parseInt(document.getElementById(id).value);
+	operation ? quantity++ : quantity--;
+	if(isNaN(quantity) || quantity < 0 || quantity >= 100){
+		alert("quantity must be positive integer and less than 100!!!");
+	}else{
+		doCartAjax(bid, quantity, address); 
+	}		
 }

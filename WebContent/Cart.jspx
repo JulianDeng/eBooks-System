@@ -22,7 +22,7 @@
 		<td>Book Name</td>
 		<td>Quantity</td>
 		<td>Unit Price</td>
-		<td>Total Price</td>
+		<td>Subtotal Price</td>
 		<td>Remove</td>
 	</tr>
 	<form action="" method="POST">
@@ -30,9 +30,9 @@
 		<tr>
 			<td><label>${book.item.bid}</label></td>
 			<td><label>${book.item.title}</label></td>
-			<td><input type="submit" id="minus_${book.item.bid}" name="minus_${book.item.bid}" value="-"/>
-				<input type="text"  class="bookitem" name="book_${book.item.bid}" id="book_${book.item.bid}" value="${book.quantity}" onchange="validate('${book.item.bid}', '${ajaxAddress}'); return false;"/>
-				<input type="submit" id="plus_${book.item.bid}" name="plus_${book.item.bid}" value="+"/>
+			<td><button type="button" id="minus_${book.item.bid}" name="minus_${book.item.bid}" value="-" onclick="validatebtn('${book.item.bid}', '${pageContext.request.contextPath}/${requestScope['javax.servlet.forward.servlet_path']}/Ajax/', ${false}); return false;">-</button>
+				<input type="text"  class="bookitem" name="book_${book.item.bid}" id="book_${book.item.bid}" value="${book.quantity}" onchange="validate('${book.item.bid}', '${pageContext.request.contextPath}/${requestScope['javax.servlet.forward.servlet_path']}/Ajax/'); return false;"/>
+				<button type="button" id="plus_${book.item.bid}" name="plus_${book.item.bid}" value="+" onclick="validatebtn('${book.item.bid}', '${pageContext.request.contextPath}/${requestScope['javax.servlet.forward.servlet_path']}/Ajax/', ${true}); return false;">+</button>
 			</td>
 			<td><label>${book.item.price}</label></td>
 			<td><label>${book.price}</label></td>

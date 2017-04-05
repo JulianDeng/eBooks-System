@@ -116,7 +116,7 @@ public class Home extends HttpServlet {
 		}
 
 		
-		//*****************************user change quantity of books via Ajax***********************
+		//*****************************user change quantity of books via Ajax textbox***********************
 		else if(request.getPathInfo() != null && request.getPathInfo().equals("/Ajax/")){
 			Enumeration <String> params = request.getParameterNames();
 			CartBean cart = (CartBean) session.getAttribute("cartlist");
@@ -219,8 +219,6 @@ public class Home extends HttpServlet {
 		else{
 			session.removeAttribute("books");
 			session.removeAttribute("bookPreviewing");
-			
-			setupAjaxAddress(request, response, session, cm);
 			
 			String target = "/Home.jspx";
 			request.getRequestDispatcher(target).forward(request, response);
@@ -567,11 +565,6 @@ public class Home extends HttpServlet {
 		request.getRequestDispatcher(target).forward(request, response);		
 	}
 
-	
-	private void setupAjaxAddress(HttpServletRequest request, HttpServletResponse response, HttpSession session, CartModel cm) {
-		String ajaxAddress = request.getRequestURI() + "/Ajax/";
-		session.setAttribute("ajaxAddress", ajaxAddress);
-	}
 	
 	/**
 	 * Check whether there is an attribute name matches the specific pattern
