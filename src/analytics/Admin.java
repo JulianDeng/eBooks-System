@@ -3,6 +3,9 @@ package analytics;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -11,15 +14,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.bind.JAXBException;
+
+import org.xml.sax.SAXException;
 
 import DAO.BookDAO;
 import DAO.BookReviewDAO;
 import DAO.LoginDAO;
 import DAO.PurchaseOrderDAO;
 import DAO.VisitEventDAO;
+import bean.BookBean;
 import model.AnalyticsModel;
+import model.AnnomizedReportWrapper;
 import model.CartModel;
-import model.ReportWrapper;
+import model.OrderProcessModel;
+import model.OrderWrapper;
+import model.BookVisitReportWrapper;
 
 /**
  * Servlet implementation class Admin
@@ -32,7 +42,7 @@ public class Admin extends HttpServlet {
 	private AnalyticsModel analyticsmodel;
 	private VisitEventDAO visitDao;
 	private LoginDAO loginDao;
-       
+	private BookDAO bookDao;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -52,6 +62,7 @@ public class Admin extends HttpServlet {
 			loginDao = new LoginDAO();
 			visitDao = new VisitEventDAO();
 			analyticsmodel = new AnalyticsModel();
+			bookDao = new BookDAO();
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -69,16 +80,17 @@ public class Admin extends HttpServlet {
 		if(session.getAttribute("AdminLoggingIn")!=null && session.getAttribute("AdminLoggingIn").equals("true")){
 			System.out.println("AdminLoggingIn");
 			//if admin submit 
-			if(request.getParameter("submitMonthReport") != null){
+			if(request.getParameter("submitMonthVisitReport") != null){
 				try {
 					String eventtype = request.getParameter("eventtype");
 					String year = request.getParameter("year");
 					String month = request.getParameter("month");
 					if(month.length()==1) month = "0"+month;
-					ReportWrapper report = visitDao.getReport(eventtype, year+month+"01");
+					BookVisitReportWrapper report = visitDao.getReport(eventtype, year+month+"01");
 					
 					String f = "analytics"+ File.separator + request.getSession().getId()+".xml";
 					String filename = this.getServletContext().getRealPath(File.separator + f);
+					System.out.println(filename);
 					analyticsmodel.exportVisitReport(report, filename);
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -86,7 +98,7 @@ public class Admin extends HttpServlet {
 					e.printStackTrace();
 				}
 			}
-			else if(request.getParameter("submitReport") != null){
+			else if(request.getParameter("submitVisitReport") != null){
 				try {
 					String eventtype = request.getParameter("eventtype");
 					String yearbegin = request.getParameter("yearbegin");
@@ -97,7 +109,7 @@ public class Admin extends HttpServlet {
 					if(monthend.length()==1) monthend = "0"+monthend;
 					String dateBegin = yearbegin+monthbegin+"00";
 					String dateEnd = yearend+monthend+"00";
-					ReportWrapper report = visitDao.getReport(eventtype, dateBegin, dateEnd);
+					BookVisitReportWrapper report = visitDao.getReport(eventtype, dateBegin, dateEnd);
 					
 					String f = "analytics"+ File.separator + request.getSession().getId()+".xml";
 					String filename = this.getServletContext().getRealPath(File.separator + f);
@@ -121,10 +133,22 @@ public class Admin extends HttpServlet {
 				String target = "/Analytics.jspx";
 				request.getRequestDispatcher(target).forward(request, response);
 			}
+			else if(request.getParameter("submitAnnomizedReport") != null){
+				AnnomizedReportWrapper report = (AnnomizedReportWrapper) request.getAttribute("annomizedReport");
+				String f = "analytics"+ File.separator + request.getSession().getId()+".xml";
+				String filename = this.getServletContext().getRealPath(File.separator + f);
+				System.out.println(filename);
+				try {
+					analyticsmodel.exportAnnomizedReport(report, filename);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 			else{
 				String target = "/Analytics.jspx";
 				request.getRequestDispatcher(target).forward(request, response);
 			}
+
 		}
 		//if admin is not logging in
 		else{

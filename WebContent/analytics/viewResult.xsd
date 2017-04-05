@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <xsd:element name="list_Of_Books" type="bookListType"/>
+
+  <xsd:complexType name="bookListType">
+	<xsd:sequence>
+	  <xsd:element name="book_Info" type="bookItemType"/>
+	</xsd:sequence>
+  </xsd:complexType>
+  
+  <xsd:complexType name="bookItemType">
+    <xsd:sequence>
+	  <xsd:element name="bid" type="xsd:string"/>
+	  <xsd:element name="title" type="xsd:string"/>
+	  <xsd:element name="price" type="xsd:integer"/>
+	  <xsd:element name="category">
+		<xsd:simpleType>
+		  <xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Science"/>
+			<xsd:enumeration value="Engineering"/>
+			<xsd:enumeration value="Fiction"/>
+		  </xsd:restriction>
+		</xsd:simpleType>
+	  </xsd:element>
+	</xsd:sequence>
+  </xsd:complexType>
+ 
+</xsd:schema>
+  

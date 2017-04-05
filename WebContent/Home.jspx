@@ -42,7 +42,6 @@
  				<td><input type="radio" name="cat" id="catFic" value="fiction">Fiction</input></td>			
 			</c:otherwise>
 			</c:choose>
-
  			<td><input type="submit" name="select" id="select" value="select"/></td>
 		</tr>
 		</table>

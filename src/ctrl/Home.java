@@ -128,8 +128,7 @@ public class Home extends HttpServlet {
 			
 			response.setContentType("text/html");
 			PrintWriter pw = response.getWriter();
-			pw.println("<label>Total amount: $" + cart.getTotal());
-			
+			pw.println("<label>Total amount: $" + cart.getTotal());	
 		}
 		
 		
@@ -349,6 +348,7 @@ public class Home extends HttpServlet {
 		CartBean cart = (CartBean) session.getAttribute("cartlist");
 		cart.computeTotal();
 		
+
 		session.removeAttribute("bookPreviewing");
 		session.setAttribute("lastTarget", "/Home.jspx");			// record last visit page
 		String target = "/Cart.jspx";
@@ -377,6 +377,7 @@ public class Home extends HttpServlet {
 		
 		cart.removeOneExistItemByBid(bookID);
 		cart.computeTotal();
+
 		request.removeAttribute("bookid");
 		
 		String target = "/Cart.jspx";
@@ -391,6 +392,7 @@ public class Home extends HttpServlet {
 		
 		cart.deleteItemByBid(bookID);	
 		cart.computeTotal();
+
 		request.removeAttribute("bookid");
 		
 		String target = "/Cart.jspx";
@@ -401,10 +403,12 @@ public class Home extends HttpServlet {
 	//if user goes to payment page and start enter his payment information
 	private void makePayment(HttpServletRequest request, HttpServletResponse response, HttpSession session, CartModel cm) throws ServletException, IOException{
 		session.setAttribute("lastTarget", "/Cart.jspx");
+
 		CartBean cart = (CartBean) session.getAttribute("cartlist");
 		cart.computeTotal();
 		if(session.getAttribute("someuserLogin") != null){
 			cart = (CartBean) session.getAttribute("cartlist");
+
 			System.out.println(cart);
 			String target = "/Payment.jspx";
 			request.getRequestDispatcher(target).forward(request, response);
@@ -543,7 +547,9 @@ public class Home extends HttpServlet {
 			target = "/Login.jspx";
 		}
 		request.getRequestDispatcher(target).forward(request, response);
+
 	}
+
 	
 
 	private void goBack(HttpServletRequest request, HttpServletResponse response, HttpSession session, CartModel cm) throws ServletException, IOException {

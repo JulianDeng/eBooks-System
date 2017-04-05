@@ -1,4 +1,5 @@
 function doCartAjax(bid, quantity, address){
+
 	 var request = new XMLHttpRequest();
 	 var data=``;
 
@@ -15,7 +16,6 @@ function doCartAjax(bid, quantity, address){
 	 };
 	 request.send(data);
 } 
-
 
 function handlerCart(request){
 	 if ((request.readyState == 4) && (request.status == 200)){

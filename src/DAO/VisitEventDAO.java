@@ -13,9 +13,9 @@ import javax.sql.DataSource;
 import bean.BookBean;
 import bean.CartItemBean;
 import bean.DateBean;
-import model.MonthlyReportWrapper;
+import model.BookVisitReportWrapper;
+import model.MonthlyVisitReportWrapper;
 import model.OrderItemWrapper;
-import model.ReportWrapper;
 
 public class VisitEventDAO {
 	private DataSource ds;
@@ -61,8 +61,8 @@ public class VisitEventDAO {
 	 * @param end The end month, report will include for this month, Which have following format: YYYYMMDD
 	 * @throws SQLException
 	 */
-	public ReportWrapper getReport(String visitType, String start, String end) throws SQLException{
-		if(visitType!=null && !visitType.equals("")) return null;
+	public BookVisitReportWrapper getReport(String visitType, String start, String end) throws SQLException{
+		if(visitType==null || visitType.equals("")) return null;
 		DateBean date = new DateBean(timeZone); //make a date object for the report generating time
 		Connection con = this.ds.getConnection();
 		StringBuilder queryBuffer = new StringBuilder("select book.bid, title, price, category, day from visitevent, book ");
@@ -86,7 +86,7 @@ public class VisitEventDAO {
 		monthList.add(""+(tempMonth*100)); //include one more month, which srand for the end date for the report
 		
 		//make an array for all monthly report
-		ArrayList<MonthlyReportWrapper> allReportItems = new ArrayList<MonthlyReportWrapper>();
+		ArrayList<MonthlyVisitReportWrapper> allReportItems = new ArrayList<MonthlyVisitReportWrapper>();
 		//do all the data adding for every month
 		for(int i=0; i<monthList.size()-1; i++){
 			execute.setString(1, monthList.get(i)); //the start date for this month
@@ -105,11 +105,11 @@ public class VisitEventDAO {
 				BookBean book = new BookBean(bid, title, price, category);
 				itemList.add(new OrderItemWrapper(book, day)); //add item order into itemList
 			}
-			MonthlyReportWrapper monthlyItem = new MonthlyReportWrapper(monthList.get(i), itemList);
+			MonthlyVisitReportWrapper monthlyItem = new MonthlyVisitReportWrapper(monthList.get(i), itemList);
 			allReportItems.add(monthlyItem);
 			result.close();
 		}
-		ReportWrapper allReport = new ReportWrapper(date.formatDateToYYYYMMDD(), visitType, start, end, allReportItems);
+		BookVisitReportWrapper allReport = new BookVisitReportWrapper(date.formatDateToYYYYMMDD(), visitType, start, end, allReportItems);
 		execute.close();
 		con.close();
 		return allReport;
@@ -122,7 +122,7 @@ public class VisitEventDAO {
 	 * @param dateStr Which have following format: YYYYMMDD
 	 * @throws SQLException
 	 */
-	public ReportWrapper getReport(String visitType, String dateStr) throws SQLException{
+	public BookVisitReportWrapper getReport(String visitType, String dateStr) throws SQLException{
 		Connection con = this.ds.getConnection();
 		String query = "select book.bid, title, price, category, day from visitevent, book "
 				+ "where book.bid=visitevent.bid and eventtype=? and day>? and day<?";
@@ -160,11 +160,11 @@ public class VisitEventDAO {
 			itemList.add(new OrderItemWrapper(book, day)); //add item order into itemList
 		}
 		//make object for this month report
-		MonthlyReportWrapper monthlyReportItem = new MonthlyReportWrapper(start, itemList);
+		MonthlyVisitReportWrapper monthlyReportItem = new MonthlyVisitReportWrapper(start, itemList);
 		DateBean date = new DateBean(timeZone);
-		ArrayList<MonthlyReportWrapper> monthlyReport = new ArrayList<MonthlyReportWrapper>();
+		ArrayList<MonthlyVisitReportWrapper> monthlyReport = new ArrayList<MonthlyVisitReportWrapper>();
 		monthlyReport.add(monthlyReportItem);
-		ReportWrapper allReport = new ReportWrapper(date.formatDateToYYYYMMDD(), visitType, start, end, monthlyReport);
+		BookVisitReportWrapper allReport = new BookVisitReportWrapper(date.formatDateToYYYYMMDD(), visitType, start, end, monthlyReport);
 		result.close();
 		execute.close();
 		con.close();

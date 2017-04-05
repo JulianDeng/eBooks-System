@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <xsd:element name="annomizedReport" type="annomizedReportType"/>
+
+  <xsd:complexType name="annomizedReportType">
+	<xsd:sequence>
+	  <xsd:element name="generateDate" type="xsd:string"/>
+	  <xsd:element name="annomizedUser" minOccurs="0" maxOccurs="unbounded" type="annomizedUserType"/>
+	</xsd:sequence>
+	<xsd:attribute name="orderBy" type="xsd:string"/>
+	<xsd:attribute name="order" type="xsd:string"/>
+  </xsd:complexType>
+  
+  <xsd:complexType name="annomizedUserType">
+    <xsd:sequence>
+	  <xsd:element name="uid" type="xsd:integer"/>
+	  <xsd:element name="firstName" type="xsd:string"/>
+	  <xsd:element name="lastName" type="xsd:string"/>
+	  <xsd:element name="total_spend" type="xsd:integer"/>
+	</xsd:sequence>
+  </xsd:complexType>
+  
+</xsd:schema>
+  

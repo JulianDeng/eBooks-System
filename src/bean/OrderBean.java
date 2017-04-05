@@ -2,12 +2,21 @@ package bean;
 
 import java.util.ArrayList;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
+
+@XmlType(propOrder={"orderID", "uid", "status", "address"})
 public class OrderBean {
 	
 	private ArrayList<CartItemBean> items;
+	@XmlElement(name="orderId")
 	private int orderID;
+	@XmlElement
 	private String status;
+	@XmlElement
 	private AddressBean address;
+	@XmlElement(name="userId")
 	private int uid;
 	
 	
@@ -34,11 +43,11 @@ public class OrderBean {
 	public boolean deleteItems(CartItemBean items) {
 		return this.items.remove(items);
 	}
-
+	@XmlTransient
 	public int getOrderID() {
 		return orderID;
 	}
-
+	@XmlTransient
 	public String getStatus() {
 		return status;
 	}
@@ -46,11 +55,11 @@ public class OrderBean {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
+	@XmlTransient
 	public AddressBean getAddress() {
 		return address;
 	}
-
+	@XmlTransient
 	public int getUid() {
 		return uid;
 	}
