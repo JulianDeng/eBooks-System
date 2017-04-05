@@ -100,7 +100,7 @@ public class CartBean {
 		}
 	}
 	
-	public void updateItemByid(String bid, int quantity){
+	public void updateItemByBid(String bid, int quantity){
 		for(CartItemBean cItem : this.items){
 			if(cItem.getItem().getBid().equals(bid)){
 				cItem.setQuantity(quantity);
@@ -111,9 +111,22 @@ public class CartBean {
 	
 	public void computeTotal(){
 		this.total = 0;
-		for(CartItemBean cItem : this.items){
-			this.total += cItem.getPrice();
+		if(this.items.size() != 0){
+			for(CartItemBean cItem : this.items){
+				this.total += cItem.getPrice();
+			}
 		}
+	}
+	
+	public int getSubtotalByBid(String bid){
+		int subtotal = 0;
+		for(int i=0; i<this.items.size(); i++){
+			CartItemBean cItem = this.items.get(i);
+			if(cItem.getItem().getBid().equals(bid)){
+				subtotal = cItem.getPrice();
+			}
+		}
+		return subtotal;
 	}
 	
 }

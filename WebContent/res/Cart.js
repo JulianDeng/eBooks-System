@@ -19,8 +19,14 @@ function doCartAjax(bid, quantity, address){
 
 function handlerCart(request){
 	 if ((request.readyState == 4) && (request.status == 200)){
-	 var target = document.getElementById("totalPriceAjax");
-	 target.innerHTML = request.responseText;
+	 var fields = request.responseText.split('~');	 
+	 
+	 var totalHTML = fields[0];
+	 var subtotalTag = "subtotalAjax_" + fields[1];
+	 var subtotal = fields[2];
+	 
+	 document.getElementById("totalPriceAjax").innerHTML = totalHTML;
+	 document.getElementById(subtotalTag).innerHTML = subtotal; 
 	 }
 } 
 
@@ -44,6 +50,7 @@ function validatebtn(bid, address, operation){
 	if(isNaN(quantity) || quantity < 0 || quantity >= 100){
 		alert("quantity must be positive integer and less than 100!!!");
 	}else{
+		document.getElementById(id).value = quantity;
 		doCartAjax(bid, quantity, address); 
-	}		
+	}
 }

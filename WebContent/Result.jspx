@@ -16,10 +16,10 @@
 <c:choose>
 	<c:when test="${paySuccess eq true}">
 		<h2>Order Successfully Completed</h2>
-		<input type="submit" name="restart" id="restart" value="restart"/>
+		<input type="submit" name="restart" id="restart" value="continue browsing"/>
 	</c:when>
 	<c:otherwise>
-		<h2>Credit Card Authorization Failed</h2>
+		<h2>Credit Card Authorization Failed (3rd request denied)</h2>
 		<input type="submit" name="back" id="back" value="try again"/>
 	</c:otherwise>
 </c:choose>

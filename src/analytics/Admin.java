@@ -140,6 +140,7 @@ public class Admin extends HttpServlet {
 				request.getRequestDispatcher(target).forward(request, response);
 			}
 			else if(request.getParameter("submitAnnomizedReport") != null){
+
 				try {
 					AnnomizedReportWrapper report = (AnnomizedReportWrapper) request.getAttribute("annomizedReport");
 					String f = "analytics"+ File.separator + "annomizedReport.xml";

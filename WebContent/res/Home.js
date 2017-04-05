@@ -13,3 +13,14 @@ function validateRate(element){
  	return ok;
 }
 
+
+function validateComm(element){
+	var ok = false;
+	str = element.value;
+	if(str.length > 0){
+		ok = true;
+	}else{
+		alert("Comment must be at least one character!!!");
+	}
+	return ok;
+}
