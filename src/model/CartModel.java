@@ -39,7 +39,7 @@ public class CartModel {
 	public Collection<BookBean> getBooksFromCategory(String category){		
 		Collection<BookBean> listOfBooks = null;	
 		try {
-			listOfBooks = bookDao.getBooks("", Integer.MAX_VALUE, 0, category).values();   //search text is empty, price range(0,MAX)
+			listOfBooks = bookDao.getBooks("", Integer.MAX_VALUE, 0, category == null ? "" : category).values();   //search text is empty, price range(0,MAX)
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

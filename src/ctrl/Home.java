@@ -116,21 +116,26 @@ public class Home extends HttpServlet {
 		}
 
 		
-		//*****************************user change quantity of books via Ajax textbox***********************
+		//*****************************user change quantity of books via Ajax***********************
 		else if(request.getPathInfo() != null && request.getPathInfo().equals("/Ajax/")){
 			Enumeration <String> params = request.getParameterNames();
 			CartBean cart = (CartBean) session.getAttribute("cartlist");
+			String name = "", value = "";
 			while(params.hasMoreElements()){
-				String name = params.nextElement();
-				String value = request.getParameter(name);
-				cart.updateItemByid(name, Integer.parseInt(value));
+				name = params.nextElement();
+				value = request.getParameter(name);
+				cart.updateItemByBid(name, Integer.parseInt(value));
 			}
 			cart.computeTotal();
+			int total = cart.getTotal();
+			int subtotal = cart.getSubtotalByBid(name);
 			session.setAttribute("cartlist", cart);
 			
 			response.setContentType("text/html");
 			PrintWriter pw = response.getWriter();
-			pw.println("<label>Total amount: $" + cart.getTotal());	
+			pw.println("<label>Total amount: $" + total + "~" + name + "~" + subtotal + "~");	
+			
+			
 		}
 		
 		
@@ -217,14 +222,12 @@ public class Home extends HttpServlet {
 		
 		//default; 
 		else{
-			session.removeAttribute("books");
-			session.removeAttribute("bookPreviewing");
-			
-			String target = "/Home.jspx";
-			request.getRequestDispatcher(target).forward(request, response);
+			InitilizeVisit(request, response, session, cm);
 		}
 
 	}
+
+
 
 
 
@@ -346,10 +349,11 @@ public class Home extends HttpServlet {
 	private void moveToCartPage(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			CartModel cm) throws ServletException, IOException {
 		CartBean cart = (CartBean) session.getAttribute("cartlist");
-		cart.computeTotal();
+		if (cart != null){
+			cart.computeTotal();
+			session.setAttribute("cartlist", cart);			
+		}
 		
-
-		session.removeAttribute("bookPreviewing");
 		session.setAttribute("lastTarget", "/Home.jspx");			// record last visit page
 		String target = "/Cart.jspx";
 		request.getRequestDispatcher(target).forward(request, response);
@@ -364,6 +368,7 @@ public class Home extends HttpServlet {
 		cart.addOneExistItemByBid(bookID);
 		cart.computeTotal();
 		request.removeAttribute("bookid");
+		session.setAttribute("cartlist", cart);
 		
 		String target = "/Cart.jspx";
 		request.getRequestDispatcher(target).forward(request, response);
@@ -377,6 +382,7 @@ public class Home extends HttpServlet {
 		
 		cart.removeOneExistItemByBid(bookID);
 		cart.computeTotal();
+		session.setAttribute("cartlist", cart);
 
 		request.removeAttribute("bookid");
 		
@@ -392,6 +398,7 @@ public class Home extends HttpServlet {
 		
 		cart.deleteItemByBid(bookID);	
 		cart.computeTotal();
+		session.setAttribute("cartlist", cart);
 
 		request.removeAttribute("bookid");
 		
@@ -406,9 +413,8 @@ public class Home extends HttpServlet {
 
 		CartBean cart = (CartBean) session.getAttribute("cartlist");
 		cart.computeTotal();
-		if(session.getAttribute("someuserLogin") != null){
-			cart = (CartBean) session.getAttribute("cartlist");
-
+		session.setAttribute("cartlist", cart);
+		if(session.getAttribute("loginUser") != null){
 			System.out.println(cart);
 			String target = "/Payment.jspx";
 			request.getRequestDispatcher(target).forward(request, response);
@@ -439,7 +445,8 @@ public class Home extends HttpServlet {
 			target = "/Login.jspx";
 		}
 		else{
-			session.setAttribute("someuserLogin", uid+":"+username+":"+password);
+			session.setAttribute("userid", Integer.toString(uid));
+			session.setAttribute("loginUser", username);
 			target = "/Payment.jspx";
 		}
 		request.getRequestDispatcher(target).forward(request, response);		
@@ -476,7 +483,8 @@ public class Home extends HttpServlet {
 	
 	private void logoutUser(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			CartModel cm) throws ServletException, IOException {
-		session.removeAttribute("someuserLogin");
+		session.removeAttribute("userid");
+		session.removeAttribute("loginUser");
 		String target = "/Login.jspx";
 		request.getRequestDispatcher(target).forward(request, response);	
 	}
@@ -487,12 +495,11 @@ public class Home extends HttpServlet {
 	private void submitPayment(HttpServletRequest request, HttpServletResponse response, HttpSession session, CartModel cm) throws ServletException, IOException{
 		String target = "/Payment.jspx";
 		
-		if(session.getAttribute("someuserLogin") != null){
+		if(session.getAttribute("loginUser") != null){
 			
 			boolean paySuccess = false;
-			
-			String userInfo = (String) session.getAttribute("someuserLogin");			
-			String userid = userInfo.split(":")[0];
+					
+			String userid = (String) session.getAttribute("userid");
 			int uid = Integer.parseInt(userid);
 			
 			String street = request.getParameter("streetNum") + " " + request.getParameter("streetName");
@@ -560,11 +567,20 @@ public class Home extends HttpServlet {
 	
 	private void reStartBrowsing(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			CartModel cm) throws ServletException, IOException {
-		session.removeAttribute("lastTarget");
-		String target = "/Home.jspx";
-		request.getRequestDispatcher(target).forward(request, response);		
+		response.sendRedirect("Home");
 	}
 
+	
+	private void InitilizeVisit(HttpServletRequest request, HttpServletResponse response, HttpSession session,
+			CartModel cm) throws ServletException, IOException {
+		session.removeAttribute("books");
+		session.removeAttribute("bookPreviewing");
+		
+		String target = "/Home.jspx";
+		request.getRequestDispatcher(target).forward(request, response);
+	}	
+	
+	
 	
 	/**
 	 * Check whether there is an attribute name matches the specific pattern
