@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.sun.research.ws.wadl.Request;
+
 import DAO.*;
 import analytics.BookVisit;
 import analytics.Popularity;
@@ -61,8 +63,8 @@ public class Home extends HttpServlet {
 		HttpSession session = request.getSession();
 		CartModel cm = (CartModel) context.getAttribute("cartModel");
 		System.out.println(request.getQueryString());
-		
-		
+
+
 		//*********************************user select a category******************************************
 		if(request.getParameter("select") != null){
 		 	System.out.println("user select a category");		 	
@@ -218,13 +220,13 @@ public class Home extends HttpServlet {
 			session.removeAttribute("books");
 			session.removeAttribute("bookPreviewing");
 			
+			setupAjaxAddress(request, response, session, cm);
+			
 			String target = "/Home.jspx";
 			request.getRequestDispatcher(target).forward(request, response);
 		}
 
 	}
-
-
 
 
 
@@ -565,6 +567,11 @@ public class Home extends HttpServlet {
 		request.getRequestDispatcher(target).forward(request, response);		
 	}
 
+	
+	private void setupAjaxAddress(HttpServletRequest request, HttpServletResponse response, HttpSession session, CartModel cm) {
+		String ajaxAddress = request.getRequestURI() + "/Ajax/";
+		session.setAttribute("ajaxAddress", ajaxAddress);
+	}
 	
 	/**
 	 * Check whether there is an attribute name matches the specific pattern

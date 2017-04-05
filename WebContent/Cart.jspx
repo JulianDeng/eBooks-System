@@ -31,7 +31,7 @@
 			<td><label>${book.item.bid}</label></td>
 			<td><label>${book.item.title}</label></td>
 			<td><input type="submit" id="minus_${book.item.bid}" name="minus_${book.item.bid}" value="-"/>
-				<input type="text"  class="bookitem" name="book_${book.item.bid}" id="book_${book.item.bid}" value="${book.quantity}" onchange="validate('${book.item.bid}'); return false;"/>
+				<input type="text"  class="bookitem" name="book_${book.item.bid}" id="book_${book.item.bid}" value="${book.quantity}" onchange="validate('${book.item.bid}', '${ajaxAddress}'); return false;"/>
 				<input type="submit" id="plus_${book.item.bid}" name="plus_${book.item.bid}" value="+"/>
 			</td>
 			<td><label>${book.item.price}</label></td>
