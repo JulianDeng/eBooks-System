@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <xsd:element name="orderList" type="orderListType"/>
+
+  <xsd:complexType name="orderListType">
+	<xsd:sequence>
+	  <xsd:element name="orderItem" minOccurs="0" maxOccurs="unbounded" type="orderItemType"/>
+	</xsd:sequence>
+  </xsd:complexType>
+  
+  <xsd:complexType name="orderItemType">
+    <xsd:sequence>
+	  <xsd:element name="orderId" type="xsd:integer"/>
+	  <xsd:element name="userId" type="xsd:integer"/>
+	  <xsd:element name="status">
+		<xsd:simpleType>
+		  <xsd:restriction base="xsd:string">
+			<xsd:enumeration value="ORDERED"/>
+			<xsd:enumeration value="PROCESSED"/>
+			<xsd:enumeration value="DENIED"/>
+		  </xsd:restriction>
+		</xsd:simpleType>
+	  </xsd:element>
+	  <xsd:element name="address" type="addressType"/>
+	</xsd:sequence>
+  </xsd:complexType>
+  
+  <xsd:complexType name="addressType">
+	<xsd:sequence>
+	  <xsd:element name="street" type="xsd:string"/>
+	  <xsd:element name="province" type="xsd:string"/>
+	  <xsd:element name="country" type="xsd:string"/>
+	  <xsd:element name="zip" type="xsd:string"/>
+	  <xsd:element name="phone" type="xsd:string"/>
+	</xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>
+  

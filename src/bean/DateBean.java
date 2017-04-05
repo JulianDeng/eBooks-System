@@ -25,7 +25,6 @@ public class DateBean{
 	
 	public DateBean(int timeZone, int year, int month, int day, int hour, int minute, int second,
 			int millisecond) {
-		super();
 		this.timeZone = timeZone;
 		this.year = year;
 		this.month = month;

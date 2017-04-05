@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <xsd:element name="bookVisitReport" type="bookVisitReportType"/>
+
+  <xsd:complexType name="bookVisitReportType">
+	<xsd:sequence>
+	  <xsd:element name="generateDate" type="xsd:string"/>
+	  <xsd:element name="visitType" type="xsd:string"/>
+	  <xsd:element name="monthlyVisitReport" minOccurs="0" maxOccurs="unbounded" type="monthlyVisitReportType"/>
+	</xsd:sequence>
+    <xsd:attribute name="monthFrom" type="xsd:string"/>
+	<xsd:attribute name="monthEnd" type="xsd:string"/>
+  </xsd:complexType>
+  
+  <xsd:complexType name="monthlyVisitReportType">
+    <xsd:sequence>
+	  <xsd:element name="reportMonth" type="xsd:string"/>
+	  <xsd:element name="orderItemList" minOccurs="0" maxOccurs="unbounded" type="orderItemType"/>
+	</xsd:sequence>
+  </xsd:complexType>
+  
+  <xsd:complexType name="orderItemType">
+    <xsd:sequence>
+	  <xsd:element name="date" type="xsd:string"/>
+	  <xsd:element name="bookInfo" minOccurs="0" maxOccurs="unbounded" type="bookInfoType"/>
+	</xsd:sequence>
+  </xsd:complexType>
+  
+  <xsd:complexType name="bookInfoType">
+    <xsd:sequence>
+	  <xsd:element name="bid" type="xsd:string"/>
+	  <xsd:element name="title" type="xsd:string"/>
+	  <xsd:element name="price">
+		<xsd:simpleType>
+		  <xsd:restriction base="xsd:integer">
+			<xsd:minExclusive value="0"/>
+		  </xsd:restriction>
+		</xsd:simpleType>
+	  </xsd:element>
+	  <xsd:element name="category" type="xsd:string"/>
+	</xsd:sequence>
+  </xsd:complexType>
+  
+</xsd:schema>
+  

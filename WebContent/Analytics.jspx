@@ -40,7 +40,7 @@
 				<option value="11">November</option>
 				<option value="12">December</option>
 			</select><br/>
-			<input type="submit" name="submitMonthReport" value="Submit"/><br/>
+			<input type="submit" name="submitMonthVisitReport" value="Submit"/><br/>
 			Please select a range of month which you want to report<br/>
 			From: Year <select id="yearbegin" name="yearbegin">
 				<option value="2014">2014</option>
@@ -82,7 +82,7 @@
 				<option value="11">November</option>
 				<option value="12">December</option>
 			</select><br/>
-			<input type="submit" name="submitReport" value="Submit"/>
+			<input type="submit" name="submitVisitReport" value="Submit"/>
 		</form>
 	</fieldset>
 	<fieldset>
@@ -94,8 +94,24 @@
 			<input type="radio" name="eventtype" value="purchase" checked="true">Purchase</input><br/>
 			<input type="submit" name="submitPopular" value="Submit"/>
 		</form>
-		
-		
+	</fieldset>
+	<fieldset>
+		<legend>Annomized Report</legend>
+		<form action="" method="POST">
+			Please select you want to order by which attribute<br/>
+			<select name="orderBy">
+				<option value="uid">uid</option>
+				<option value="fname">fname</option>
+				<option value="lname">lname</option>
+				<option value="total_spend">total_spend</option>
+			</select>
+			Please select which order you want to report<br/>
+			<select name="order">
+				<option value="ascending">ascending​</option>
+				<option value="descending">descending</option>
+			</select>
+			<input type="submit" name="submitAnnomizedReport" value="Submit"/>
+		</form>
 	</fieldset>
 </body>
 </html>

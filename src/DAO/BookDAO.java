@@ -27,9 +27,6 @@ public class BookDAO {
 	 */
 	public BookBean getBookById(String bid) throws SQLException{
 		BookBean book=null;
-		if(bid==null || bid.equals("")){
-			return null;
-		}
 		Connection con = this.ds.getConnection();
 		String query = "select * from BOOK where bid=?";
 		PreparedStatement execute = con.prepareStatement(query);
@@ -58,13 +55,13 @@ public class BookDAO {
 	 */
 	public HashMap<String, BookBean> getBooks(String titlePrefix, int maxPrice, int minPrice, String category) throws SQLException{
 		HashMap<String, BookBean> books = new HashMap<String, BookBean>();
-		if(titlePrefix==null) titlePrefix="";
+		
 		Connection con = this.ds.getConnection();
 		
 		StringBuilder queryBuffer = new StringBuilder("select * from BOOK ");
 		queryBuffer.append("where title like ? and price>=? and price<=?");
 		
-		if(category!=null && !category.equals("")){
+		if(category.equals("")){
 			queryBuffer.append(" and category=?");
 		}
 		
