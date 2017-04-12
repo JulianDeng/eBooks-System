@@ -14,6 +14,18 @@
 <script type="text/javascript" src="res/Home.js">;</script>
 </head>
 <body>
+<form method="POST" action="">
+	<c:choose>
+		<c:when test="${not empty loginUser}">
+			<p>Hello, ${loginUser}!<br/>
+				<input type="submit" name="logout" id="logout" value="Log Out"/>
+			</p>
+		</c:when>
+		<c:otherwise>
+			<input type="submit" name="doLogin" id="doLogin" value="Log In"/>
+		</c:otherwise>
+	</c:choose>
+</form>
 <form action="" method="POST" name="criteria" id="criteria">
 	<fieldset>
 		<legend>Search criteria</legend>

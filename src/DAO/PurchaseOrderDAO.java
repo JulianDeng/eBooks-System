@@ -122,4 +122,36 @@ public class PurchaseOrderDAO {
 		con.close();
 		return wrapper;
 	}
+	
+	
+    public OrderWrapper getOrder(String orderId) throws SQLException{
+        Connection con = this.ds.getConnection();
+        String addressQuery = "select po.id as orderId, uid, status, address.id, street, province, country, zip, phone "
+                + "from po, address where po.address=address.id and po.id=?";
+        PreparedStatement execute = con.prepareStatement(addressQuery);
+        execute.setInt(1, Integer.parseInt(orderId));
+        ResultSet result = execute.executeQuery();
+        
+        ArrayList<OrderBean> items = new ArrayList<OrderBean>();
+        while(result.next()){
+            ArrayList<CartItemBean> orderitems = null;
+            int orderID = result.getInt(1);
+            int uid = result.getInt(2);
+            String status = result.getString(3);
+            int addressId = result.getInt(4);
+            String street = result.getString(5);
+            String province = result.getString(6);
+            String country = result.getString(7);
+            String zip = result.getString(8);
+            String phone = result.getString(9);
+            AddressBean address = new AddressBean(addressId, street, province, country, zip, phone);
+            OrderBean order = new OrderBean(orderitems, orderID, status, address, uid);
+            items.add(order);
+        }
+        OrderWrapper wrapper = new OrderWrapper(items);
+        result.close();
+        execute.close();
+        con.close();
+        return wrapper;
+    }
 }

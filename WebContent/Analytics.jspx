@@ -94,6 +94,10 @@
 			<input type="radio" name="eventtype" value="purchase" checked="true">Purchase</input><br/>
 			<input type="submit" name="submitPopular" value="Submit"/>
 		</form>
+		<c:if test="${not empty requestScope.mostpopular}">
+			The most popular ${requestScope.eventtype} book is ${requestScope.mostpopular.bid}<br/>
+			The amount is ${requestScope.mostpopular.quantity}
+		</c:if>
 	</fieldset>
 	<fieldset>
 		<legend>Annomized Report</legend>

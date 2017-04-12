@@ -63,6 +63,7 @@ public class Home extends HttpServlet {
 		HttpSession session = request.getSession();
 		CartModel cm = (CartModel) context.getAttribute("cartModel");
 		System.out.println(request.getQueryString());
+		System.out.println(request.getRemoteHost());
 
 
 		//*********************************user select a category******************************************
@@ -246,6 +247,7 @@ public class Home extends HttpServlet {
 	 	session.setAttribute("books", listOfBooks);           
 
 		String target = "/Home.jspx";
+		session.setAttribute("lastVisit", target);
 		request.getRequestDispatcher(target).forward(request, response);
 	}
 	
@@ -262,6 +264,7 @@ public class Home extends HttpServlet {
 		session.setAttribute("books", listOfBooks);           
 
 		String target = "/Home.jspx";
+		session.setAttribute("lastVisit", target);
 		request.getRequestDispatcher(target).forward(request, response);	
 	}
 
@@ -286,6 +289,7 @@ public class Home extends HttpServlet {
 		context.setAttribute("popularity", popularity); //set this attribute and inform listener
 
 		String target = "/Home.jspx";
+		session.setAttribute("lastVisit", target);
 		request.getRequestDispatcher(target).forward(request, response);
 	}
 
@@ -301,6 +305,7 @@ public class Home extends HttpServlet {
 		session.setAttribute("bookPreviewing", bookPreviewing);
 		
 		String target = "/Home.jspx";
+		session.setAttribute("lastVisit", target);
 		request.getRequestDispatcher(target).forward(request, response);
 	}
 	
@@ -316,6 +321,7 @@ public class Home extends HttpServlet {
 		session.setAttribute("bookPreviewing", bookPreviewing);
 		
 		String target = "/Home.jspx";
+		session.setAttribute("lastVisit", target);
 		request.getRequestDispatcher(target).forward(request, response);
 	}
 
@@ -340,6 +346,7 @@ public class Home extends HttpServlet {
 
 		session.removeAttribute("bookPreviewing");
 		String target = "/Home.jspx";
+		session.setAttribute("lastVisit", target);
 		request.getRequestDispatcher(target).forward(request, response);
 	}
 	
@@ -354,6 +361,7 @@ public class Home extends HttpServlet {
 	
 		session.setAttribute("lastTarget", "/Home.jspx");			// record last visit page
 		String target = "/Cart.jspx";
+		session.setAttribute("lastVisit", target);
 		request.getRequestDispatcher(target).forward(request, response);
 	}
 	
@@ -415,6 +423,7 @@ public class Home extends HttpServlet {
 		if(session.getAttribute("loginUser") != null){
 			System.out.println(cart);
 			String target = "/Payment.jspx";
+			session.setAttribute("lastVisit", target);
 			request.getRequestDispatcher(target).forward(request, response);
 		} 
 		else{
@@ -427,6 +436,7 @@ public class Home extends HttpServlet {
 	private void searchAgain(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			CartModel cm) throws ServletException, IOException {
 		String target = "/Home.jspx";
+		session.setAttribute("lastVisit", target);
 		request.getRequestDispatcher(target).forward(request, response);
 	}
 
@@ -445,7 +455,7 @@ public class Home extends HttpServlet {
 		else{
 			session.setAttribute("userid", Integer.toString(uid));
 			session.setAttribute("loginUser", username);
-			target = "/Payment.jspx";
+			target = (String) session.getAttribute("lastVisit");
 		}
 		request.getRequestDispatcher(target).forward(request, response);		
 		
@@ -483,8 +493,12 @@ public class Home extends HttpServlet {
 			CartModel cm) throws ServletException, IOException {
 		session.removeAttribute("userid");
 		session.removeAttribute("loginUser");
-		String target = "/Login.jspx";
-		request.getRequestDispatcher(target).forward(request, response);	
+		String target = (String) session.getAttribute("lastVisit");
+		if(target.equals("/Payment.jspx")){
+			request.getRequestDispatcher("/Login.jspx").forward(request, response);
+		}else{
+			request.getRequestDispatcher(target).forward(request, response);	
+		}
 	}
 	
 	
@@ -575,6 +589,7 @@ public class Home extends HttpServlet {
 		session.removeAttribute("bookPreviewing");
 		
 		String target = "/Home.jspx";
+		session.setAttribute("lastVisit", target);
 		request.getRequestDispatcher(target).forward(request, response);
 	}	
 	

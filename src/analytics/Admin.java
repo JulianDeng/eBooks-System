@@ -129,12 +129,15 @@ public class Admin extends HttpServlet {
 			else if(request.getParameter("submitPopular") != null){
 				if(request.getParameter("eventtype").equals("view")){
 					request.setAttribute("mostpopular", context.getAttribute("mostPopularViewed"));
+					request.setAttribute("eventtype", "view");
 				}
 				else if(request.getParameter("eventtype").equals("cart")){
 					request.setAttribute("mostpopular", context.getAttribute("mostPopularCarted"));
+					request.setAttribute("eventtype", "cart" );
 				}
 				else if(request.getParameter("eventtype").equals("purchase")){
 					request.setAttribute("mostpopular", context.getAttribute("mostPopularPurchased"));
+					request.setAttribute("eventtype", "purchase");
 				}
 				String target = "/Analytics.jspx";
 				request.getRequestDispatcher(target).forward(request, response);

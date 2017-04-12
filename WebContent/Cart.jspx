@@ -13,7 +13,18 @@
 <script type="text/javascript" src="res/Cart.js">;</script>
 </head>
 <body>
-
+<form method="POST" action="">
+	<c:choose>
+		<c:when test="${not empty loginUser}">
+			<p>Hello, ${loginUser}!<br/>
+				<input type="submit" name="logout" id="logout" value="Log Out"/>
+			</p>
+		</c:when>
+		<c:otherwise>
+			<input type="submit" name="doLogin" id="doLogin" value="Log In"/>
+		</c:otherwise>
+	</c:choose>
+</form>
 <legend>Items in Shopping Cart...</legend>
 <fieldset>
 <table border="1">
