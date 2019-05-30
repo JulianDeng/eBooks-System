@@ -1,5 +1,6 @@
 # eBooks-System
-course project for EECS4413
+Java, Tomcat, MySQL, JSP
+Simple website portal
 
 /eBooks/Home/  -----  access to customer portal
 
